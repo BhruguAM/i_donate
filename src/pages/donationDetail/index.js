@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Button, Dropdown } from "../../component";
-import IcRightArrow from "../../assets/icons/ic-right-arrow.svg";
-import { useDoantionList } from "../../services/donation";
-import { toast } from "react-toastify";
-import { ToastMsg } from "../../utils";
+import React, { useState } from "react";
+import { Button } from "../../component";
 
 export const DonationDetails = () => {
-  const { status, data, error, isFetching } = useDoantionList();
   const [extra, setExtra] = useState(0);
   const [formData, setFromData] = useState([
     { title: "Name", value: "", type: "text" },
@@ -32,8 +27,9 @@ export const DonationDetails = () => {
               {i.title}
             </label>
             <input
+              name={i.title}
               className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2 w-full"
-              type={"text"}
+              type={i.type}
               value={i.value}
               onChange={(e) => {
                 formData[k].value = e.target.value;
