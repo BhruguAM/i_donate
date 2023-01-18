@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainContainer from "../container/MainContainer";
-import { Donation } from "../pages";
+import { Donation, DonationDetails } from "../pages";
 const router = createBrowserRouter([
   {
     element: <MainContainer />,
@@ -10,6 +10,11 @@ const router = createBrowserRouter([
       {
         path: "/donation",
         element: <Donation />,
+        //   loader: teamLoader,
+      },
+      {
+        path: "/donation/details",
+        element: <DonationDetails />,
         //   loader: teamLoader,
       },
     ],

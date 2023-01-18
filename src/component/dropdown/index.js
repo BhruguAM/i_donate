@@ -7,25 +7,31 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export const Dropdown = ({ items, value, onChange, title }) => {
+export const Dropdown = ({
+  items,
+  value,
+  onChange,
+  title,
+  showValue = "select",
+}) => {
   return (
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (
         <>
           {title && (
-            <Listbox.Label className="block text-sm font-medium text-primary">
+            <Listbox.Label className={`block text-sm font-medium text-primary`}>
               {title}
             </Listbox.Label>
           )}
           <div className="relative mt-1">
             <Listbox.Button className="relative w-full cursor-default border-b border-gray-300 bg-white py-2 text-left shadow-sm focus:outline-none sm:text-sm">
               <span className="flex items-center">
-                <span className="block truncate">{value.name}</span>
+                <span className="block truncate text-greyout">{showValue}</span>
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                 <img
                   src={IcDownArrow}
-                  className="h-4 w-4 text-gray-400 object-contain"
+                  className="h-3 w-3 text-gray-400 object-contain"
                   aria-hidden="true"
                   alt=">"
                 />
@@ -42,7 +48,7 @@ export const Dropdown = ({ items, value, onChange, title }) => {
               <Listbox.Options className="absolute z-10 max-h-56 w-full overflow-auto bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {items.map((i, k) => (
                   <Listbox.Option
-                    key={i.name + k}
+                    key={i.created_at + "" + k}
                     className={({ active }) =>
                       classNames(
                         active ? "text-white bg-primary" : "text-gray-900",
@@ -67,7 +73,11 @@ export const Dropdown = ({ items, value, onChange, title }) => {
                               "ml-3 block truncate"
                             )}
                           >
-                            {i.name}
+                            {title === "Donation To"
+                              ? i.organization_name
+                              : title === "Donation For"
+                              ? i.category_name
+                              : i.event_name}
                           </span>
                         </div>
 
