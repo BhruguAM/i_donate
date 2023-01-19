@@ -10,7 +10,7 @@ export const Header = () => {
         <img src={IcBack} className="h-5 w-5 object-contain" alt="back" />
       </div>
       <div className="font-semibold text-white text-xl flex flex-1 items-center justify-center">
-        Donation
+        IDonation
       </div>
       <div className="flex flex-1"></div>
     </header>

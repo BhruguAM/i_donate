@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Dropdown } from "../../component";
+import { Button, Dropdown, InputText } from "../../component";
 import IcRightArrow from "../../assets/icons/ic-right-arrow.svg";
 import { useDoantionList } from "../../services/donation";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +37,14 @@ const dataa = {
         created_at: "2023-01-18T15:49:46.464Z",
         updated_at: "2023-01-18T15:49:46.464Z",
       },
+      {
+        id: 1,
+        event_name: "Other",
+        description: null,
+        status: true,
+        created_at: "2023-01-18T15:49:46.464Z",
+        updated_at: "2023-01-18T15:49:46.464Z",
+      },
     ],
     organizations: [
       {
@@ -61,6 +69,11 @@ const dataa = {
 
 export const Donation = () => {
   const navigation = useNavigate();
+  //for Demo
+  // const data = dataa;
+  // const isFetching = false;
+  //for Demo
+
   const { status, data, error, isFetching } = useDoantionList();
   const [donationCategories, setDonationCategories] = useState([]);
   const [selectedDonationCategory, setSelectedDonationCategory] = useState({
@@ -79,7 +92,7 @@ export const Donation = () => {
 
   useEffect(() => {
     if (!isFetching) {
-      if (data?.status) {
+      if (dataa?.status) {
         console.log("donation data", data);
         console.log(
           "data.donation_categories[0]",
@@ -146,8 +159,8 @@ export const Donation = () => {
             <label className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2">
               $
             </label>
-            <input
-              className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2 w-full"
+            <InputText
+              extraclassName={"mt-4 pb-2 w-full"}
               type={"number"}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}

@@ -1,18 +1,55 @@
-import React, { useState } from "react";
-import { Button } from "../../component";
+import React, { useEffect, useState } from "react";
+import { Button, InputText } from "../../component";
 
 export const DonationDetails = () => {
   const [extra, setExtra] = useState(0);
+  const [buttonDisable, setButtonDisable] = useState(true);
   const [formData, setFromData] = useState([
     { title: "Name", value: "", type: "text" },
     { title: "Address 1", value: "", type: "text" },
     { title: "Address 2", value: "", type: "text" },
     { title: "City", value: "", type: "text" },
     { title: "State", value: "", type: "text" },
-    { title: "ZIP", value: "", type: "text" },
+    { title: "ZIP", value: "", type: "number" },
     { title: "Phone Number", value: "", type: "number" },
     { title: "Email", value: "", type: "email" },
   ]);
+
+  useEffect(() => {
+    const IsEmpty = formData.find((i) => i.value === "");
+    console.log("isEmpty", IsEmpty);
+    if (IsEmpty) {
+      if (IsEmpty.title === "Address 2") {
+        setButtonDisable(false);
+      } else {
+        setButtonDisable(true);
+      }
+    } else {
+      setButtonDisable(false);
+    }
+  }, [extra]);
+
+  const onChangeInput = (e, i, k) => {
+    if (i.type === "text" && !i.title.includes("Address")) {
+      const re = /^[A-Za-z]+$/;
+      if (e.target.value === "" || re.test(e.target.value)) {
+        formData[k].value = e.target.value;
+        setFromData(formData);
+        setExtra(extra + 1);
+      }
+    } else if (i.type === "number") {
+      const numre = /^[0-9\b]+$/;
+      if (e.target.value === "" || numre.test(e.target.value)) {
+        formData[k].value = e.target.value;
+        setFromData(formData);
+        setExtra(extra + 1);
+      }
+    } else {
+      formData[k].value = e.target.value;
+      setFromData(formData);
+      setExtra(extra + 1);
+    }
+  };
 
   return (
     <div>
@@ -26,22 +63,17 @@ export const DonationDetails = () => {
             <label className="text-sm font-medium text-primary">
               {i.title}
             </label>
-            <input
+            <InputText
               name={i.title}
-              className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2 w-full"
               type={i.type}
               value={i.value}
-              onChange={(e) => {
-                formData[k].value = e.target.value;
-                setFromData(formData);
-                setExtra(extra + 1);
-              }}
+              onChange={(e) => onChangeInput(e, i, k)}
             />
           </div>
         ))}
       </div>
       <Button
-        // disabled={amount === ""}
+        disabled={buttonDisable}
         title={"Donate Now"}
         onClick={() => console.log("Clicked")}
       />
