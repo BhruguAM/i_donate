@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, InputText } from "../../component";
+import { AddDonation } from "../../services/donation";
+
+import { ToastMsg } from "../../utils";
 
 export const DonationDetails = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  console.log("state", state);
   const [extra, setExtra] = useState(0);
   const [buttonDisable, setButtonDisable] = useState(true);
   const [formData, setFromData] = useState([
@@ -16,18 +23,53 @@ export const DonationDetails = () => {
   ]);
 
   useEffect(() => {
-    const IsEmpty = formData.find((i) => i.value === "");
+    const IsEmpty = formData.find(
+      (i) => i.value === "" && i.title !== "Address 2"
+    );
     console.log("isEmpty", IsEmpty);
     if (IsEmpty) {
-      if (IsEmpty.title === "Address 2") {
-        setButtonDisable(false);
-      } else {
-        setButtonDisable(true);
-      }
+      console.log("3");
+      setButtonDisable(true);
     } else {
+      console.log("4");
       setButtonDisable(false);
     }
   }, [extra]);
+
+  const validateEmail = (email) => {
+    return email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  };
+
+  const onSubmitForm = async (e) => {
+    e.stopPropagation();
+    const getEmail = formData.find((i) => i.type === "email");
+    // let validRegex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+    if (validateEmail(getEmail.value)) {
+      console.log("Chalse");
+      const body = {
+        ...state,
+        name: formData[0].value,
+        address_line1: formData[1].value,
+        address_line2: formData[2].value,
+        city: formData[3].value,
+        state: formData[4].value,
+        country_code: formData[5].value,
+        phone: formData[6].value,
+        email: formData[7].value,
+      };
+      const res = await AddDonation(body);
+      if (res.status) {
+        navigate("/payment", {
+          state: { gateway_clientSecret: res.data.gateway_clientSecret },
+        });
+      }
+      console.log("res", res);
+    } else {
+      ToastMsg("Please enter valid email address", "error");
+    }
+  };
 
   const onChangeInput = (e, i, k) => {
     if (i.type === "text" && !i.title.includes("Address")) {
@@ -75,7 +117,7 @@ export const DonationDetails = () => {
       <Button
         disabled={buttonDisable}
         title={"Donate Now"}
-        onClick={() => console.log("Clicked")}
+        onClick={(e) => onSubmitForm(e)}
       />
     </div>
   );

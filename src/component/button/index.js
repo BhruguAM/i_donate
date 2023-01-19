@@ -1,8 +1,9 @@
 import React from "react";
 
-export const Button = ({ title, icon, disabled, onClick }) => {
+export const Button = ({ title, icon, disabled, onClick, id }) => {
   return (
     <button
+      id={id}
       onClick={onClick}
       disabled={disabled}
       className={`bg-primary py-4 w-full rounded-md flex justify-center ${
