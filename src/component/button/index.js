@@ -1,17 +1,31 @@
 import React from "react";
 
-export const Button = ({ title, icon, disabled, onClick, id }) => {
+export const Button = ({
+  title,
+  icon,
+  disabled,
+  onClick,
+  id,
+  secondary,
+  extraClass,
+}) => {
   return (
     <button
       id={id}
       onClick={onClick}
       disabled={disabled}
-      className={`bg-primary py-4 w-full rounded-md flex justify-center ${
+      className={`bg-primary py-4 w-full rounded-md flex justify-center active:scale-95 ${
+        extraClass || ""
+      } ${secondary && "bg-gray-300"} ${
         disabled && "pointer-events-none opacity-60"
       }`}
     >
       <div className="flex ">
-        <label className="font-semibold text-white text-base cursor-pointer">
+        <label
+          className={`font-semibold text-white text-base cursor-pointer ${
+            secondary && "text-greyout"
+          }`}
+        >
           {title}
         </label>
         {icon && (
