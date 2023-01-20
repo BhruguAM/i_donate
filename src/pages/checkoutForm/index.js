@@ -45,6 +45,7 @@ export default function CheckoutForm() {
         title={isProcessing ? "Processing ... " : "Pay now"}
         disabled={isProcessing || !stripe || !elements}
         id="submit"
+        extraClass={"mt-5"}
       />
       {/* Show any error or success messages */}
     </form>

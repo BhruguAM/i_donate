@@ -4,6 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../checkoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLocation } from "react-router-dom";
+import { StripeKey } from "../../config/config";
 
 export const Payment = () => {
   const { state } = useLocation();
@@ -11,17 +12,15 @@ export const Payment = () => {
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
-    setStripePromise(
-      loadStripe(
-        "pk_test_51LfGhWSFqtS6SXI7HNa4xM2OYfMJwW42hKDix7uLcctS5ewdngMTDnbVYdEiWkLXNmPlS1egNjFUR5QFykbl8FR300DGtLCrZf"
-      )
-    );
+    setStripePromise(loadStripe(StripeKey));
     setClientSecret(state.gateway_clientSecret);
   }, []);
 
   return (
     <>
-      <h1>React Stripe and the Payment Element</h1>
+      <h1 className="text-primary font-bold mb-5">
+        Add Card Detail for Payment
+      </h1>
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm />

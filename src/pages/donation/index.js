@@ -5,74 +5,8 @@ import { useDoantionList } from "../../services/donation";
 import { useNavigate } from "react-router-dom";
 import { ToastMsg } from "../../utils";
 
-// const dataa = {
-//   status: true,
-//   statusCode: 200,
-//   message: "Donation details",
-//   data: {
-//     donation_categories: [
-//       {
-//         id: 1,
-//         category_name: "Aarati",
-//         description: "this is for aarati donation",
-//         status: true,
-//         created_at: "2023-01-15T16:30:19.948Z",
-//         updated_at: "2023-01-15T16:30:19.948Z",
-//       },
-//       {
-//         id: 2,
-//         category_name: "Parayan",
-//         description: null,
-//         status: true,
-//         created_at: "2023-01-16T15:55:44.104Z",
-//         updated_at: "2023-01-16T15:55:44.104Z",
-//       },
-//     ],
-//     donation_events: [
-//       {
-//         id: 2,
-//         event_name: "Diwali",
-//         description: null,
-//         status: true,
-//         created_at: "2023-01-18T15:49:46.464Z",
-//         updated_at: "2023-01-18T15:49:46.464Z",
-//       },
-//       {
-//         id: 1,
-//         event_name: "Other",
-//         description: null,
-//         status: true,
-//         created_at: "2023-01-18T15:49:46.464Z",
-//         updated_at: "2023-01-18T15:49:46.464Z",
-//       },
-//     ],
-//     organizations: [
-//       {
-//         id: 1,
-//         full_name:
-//           "Shree Swaminarayan Siddhant Sajivan Mandal Midwest - Chicago",
-//         organization_name: "ssssm",
-//         address_line: "1020 Bapa Road (Off Irving Park)",
-//         city: "Streamwood",
-//         country_code: "+1",
-//         phone: "7733531633",
-//         email: null,
-//         state: "Illinois",
-//         zip: "60107",
-//         status: true,
-//         created_at: "2023-01-16T17:11:21.494Z",
-//         updated_at: "2023-01-16T17:11:21.494Z",
-//       },
-//     ],
-//   },
-// };
-
 export const Donation = () => {
   const navigation = useNavigate();
-  //for Demo
-  // const data = dataa;
-  // const isFetching = false;
-  //for Demo
 
   const { status, data, error, isFetching } = useDoantionList();
   const [donationCategories, setDonationCategories] = useState([]);
@@ -93,11 +27,6 @@ export const Donation = () => {
   useEffect(() => {
     if (!isFetching) {
       if (data?.status) {
-        console.log("donation data", data);
-        console.log(
-          "data.donation_categories[0]",
-          data.data.donation_categories[0]
-        );
         setDonationCategories(data.data.donation_categories);
         setSelectedDonationCategory(data.data.donation_categories[0]);
         setDonationEvent(data.data.donation_events);

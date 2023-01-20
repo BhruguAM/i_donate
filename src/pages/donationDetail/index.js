@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Button, InputText } from "../../component";
 import { AddDonation } from "../../services/donation";
 
@@ -8,7 +8,6 @@ import { ToastMsg } from "../../utils";
 export const DonationDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  console.log("state", state);
   const [extra, setExtra] = useState(0);
   const [buttonDisable, setButtonDisable] = useState(true);
   const [formData, setFromData] = useState([
@@ -26,12 +25,9 @@ export const DonationDetails = () => {
     const IsEmpty = formData.find(
       (i) => i.value === "" && i.title !== "Address 2"
     );
-    console.log("isEmpty", IsEmpty);
     if (IsEmpty) {
-      console.log("3");
       setButtonDisable(true);
     } else {
-      console.log("4");
       setButtonDisable(false);
     }
   }, [extra]);
@@ -47,7 +43,6 @@ export const DonationDetails = () => {
     const getEmail = formData.find((i) => i.type === "email");
     // let validRegex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
     if (validateEmail(getEmail.value)) {
-      console.log("Chalse");
       const body = {
         ...state,
         name: formData[0].value,
@@ -65,7 +60,6 @@ export const DonationDetails = () => {
           state: { gateway_clientSecret: res.data.gateway_clientSecret },
         });
       }
-      console.log("res", res);
     } else {
       ToastMsg("Please enter valid email address", "error");
     }

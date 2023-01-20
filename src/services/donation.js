@@ -1,6 +1,7 @@
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
+import { BaseUrl } from "../config/config";
 
-const BASE_URL = "https://f96c-49-34-82-220.in.ngrok.io";
+const BASE_URL = BaseUrl;
 
 export function useDoantionList() {
   return useQuery(

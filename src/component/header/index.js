@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log({ location });
   return (
     <header className="h-16 min-w-full bg-primary flex justify-between items-center px-4 sticky top-0 z-30">
       <div className="flex flex-1">
