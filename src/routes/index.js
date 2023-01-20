@@ -1,10 +1,19 @@
 import * as React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainContainer from "../container/MainContainer";
-import { Donation, DonationDetails, Payment, Success } from "../pages";
+import {
+  Donation,
+  DonationDetails,
+  ErrorElement,
+  Payment,
+  Success,
+} from "../pages";
+
 const router = createBrowserRouter([
   {
     element: <MainContainer />,
+    errorElement: <ErrorElement />,
+
     //   loader: rootLoader,
     children: [
       {
