@@ -39,6 +39,7 @@ export const DonationDetails = () => {
   };
 
   const onSubmitForm = async (e) => {
+    setButtonDisable(true);
     e.stopPropagation();
     const getEmail = formData.find((i) => i.type === "email");
     // let validRegex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
@@ -56,12 +57,20 @@ export const DonationDetails = () => {
       };
       const res = await AddDonation(body);
       if (res.status) {
-        navigate("/payment", {
-          state: { gateway_clientSecret: res.data.gateway_clientSecret },
-        });
+        ToastMsg(res.message, "success");
+        setTimeout(() => {
+          navigate("/payment", {
+            state: { gateway_clientSecret: res.data.gateway_clientSecret },
+          });
+          setButtonDisable(false);
+        }, 1000);
+      } else {
+        ToastMsg(res.message, "error");
+        setButtonDisable(false);
       }
     } else {
       ToastMsg("Please enter valid email address", "error");
+      setButtonDisable(false);
     }
   };
 
