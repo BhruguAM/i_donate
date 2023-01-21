@@ -8,13 +8,31 @@ export const InputText = ({
   extraclassName = "",
   onFocus,
   onBlur,
+  id,
 }) => {
+  if (type === "number") {
+    return (
+      <input
+        inputmode="numeric"
+        pattern={"[0-9]"}
+        id={id}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        name={name}
+        className={`border-b border-gray-300 text-sm text-greyout pb-2 w-full focus:border-primary ${extraclassName}`}
+        type={type}
+        value={value}
+        onChange={onChange}
+      />
+    );
+  }
   return (
     <input
+      id={id}
       onFocus={onFocus}
       onBlur={onBlur}
       name={name}
-      className={`border-b border-gray-300 text-sm text-greyout mt-3 pb-2 w-full focus:border-primary ${extraclassName}`}
+      className={`border-b border-gray-300 text-sm text-greyout pb-2 w-full focus:border-primary ${extraclassName}`}
       type={type}
       value={value}
       onChange={onChange}

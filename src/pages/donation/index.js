@@ -50,6 +50,14 @@ export const Donation = () => {
         </label>
         <div className="mt-5" />
         <Dropdown
+          items={donationEvent}
+          onChange={setSelectedDonationEvent}
+          value={selectedDonationEvent}
+          showValue={selectedDonationEvent.event_name}
+          title={"Event Type"}
+        />
+        <div className="mt-5" />
+        <Dropdown
           items={donationOrg}
           onChange={setSelectedDonationOrg}
           value={selectedDonationOrg}
@@ -63,14 +71,6 @@ export const Donation = () => {
           value={selectedDonationCategory}
           showValue={selectedDonationCategory.category_name}
           title={"Donation For"}
-        />
-        <div className="mt-5" />
-        <Dropdown
-          items={donationEvent}
-          onChange={setSelectedDonationEvent}
-          value={selectedDonationEvent}
-          showValue={selectedDonationEvent.event_name}
-          title={"Event Type"}
         />
         {selectedDonationEvent.event_name === "Other" && (
           <input
@@ -87,11 +87,16 @@ export const Donation = () => {
           </label>
           <div className="flex w-full">
             {(showDollar || amount !== "") && (
-              <label className="border-b border-primary text-sm text-greyout mt-4 pb-2">
+              <label
+                className={`border-b ${
+                  showDollar ? "border-primary" : "border-gray-300"
+                } text-sm text-greyout mt-4 pb-2 pr-1`}
+              >
                 {"$"}
               </label>
             )}
             <InputText
+              id={"text"}
               onFocus={() => setShowDollar(true)}
               onBlur={() => setShowDollar(false)}
               extraclassName={"mt-4 pb-2 w-full"}
@@ -103,10 +108,12 @@ export const Donation = () => {
         </div>
       </div>
       <Button
-        disabled={amount === ""}
+        disabled={
+          amount === "" || selectedDonationCategory.category_name === "select"
+        }
         title={"Continue"}
         icon={IcRightArrow}
-        onClick={() =>
+        onClick={() => {
           navigation("/donation/details", {
             state: {
               donation_category_id: selectedDonationCategory.id,
@@ -115,8 +122,8 @@ export const Donation = () => {
               event_name: eventName,
               donation_amount: amount,
             },
-          })
-        }
+          });
+        }}
       />
     </div>
   );

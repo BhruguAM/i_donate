@@ -3,10 +3,12 @@ import lottie from "lottie-web";
 import AnimatedData from "../../assets/lottie/payment_tick.json";
 import { Button } from "../../component";
 import { PaymentDetails } from "../../services/payment";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { BaseUrl } from "../../config/config";
 
 export const Success = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [recieptNumber, setRecieptNumber] = useState("");
   const [totalAmout, setTotalAmout] = useState("");
@@ -44,6 +46,13 @@ export const Success = () => {
   };
 
   useEffect(() => {
+    window.history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+      window.history.go(1);
+    };
+  }, []);
+
+  useEffect(() => {
     GetPaymentDetails();
   }, []);
 
@@ -65,45 +74,60 @@ export const Success = () => {
         <label className="text-center text-xs text-greyout mb-14">
           Details of transaction are included below
         </label>
-        <div className="border-b border-gray-200 flex py-3 w-full justify-between">
-          <label className="text-center text-sm text-greyout">
-            {"Receipt Number"}
-          </label>
-          <label className="text-center text-sm text-greyout">
-            {recieptNumber}
-          </label>
-        </div>
-        <div className="border-b border-gray-200 flex py-3 w-full justify-between">
-          <label className="text-center text-sm text-greyout">
-            {"Total Amount"}
-          </label>
-          <label className="text-center text-sm text-greyout">
-            {totalAmout}
-          </label>
-        </div>
-        <div className="border-b border-gray-200 flex py-3 w-full justify-between">
-          <label className="text-center text-sm text-greyout">
-            {"Payment Type"}
-          </label>
-          <label className="text-center text-sm text-greyout">
-            {paymentType}
-          </label>
-        </div>
-        <div className="flex py-3 w-full justify-between">
-          <label className="text-center text-sm text-greyout">
-            {"Transanction Date"}
-          </label>
-          <label className="text-center text-sm text-greyout">
-            {transactionDate}
-          </label>
-        </div>
+        {transactionDate === "" ? (
+          <div class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse">
+            loading...
+          </div>
+        ) : (
+          <div
+            className={`w-full ${transactionDate === "" && "animate-pulse"}`}
+          >
+            <div className="border-b border-gray-200 flex py-3 w-full justify-between">
+              <label className="text-center text-sm text-greyout">
+                {"Receipt Number"}
+              </label>
+              <label className="text-center text-sm text-greyout">
+                {recieptNumber}
+              </label>
+            </div>
+            <div className="border-b border-gray-200 flex py-3 w-full justify-between">
+              <label className="text-center text-sm text-greyout">
+                {"Total Amount"}
+              </label>
+              <label className="text-center text-sm text-greyout">
+                {totalAmout}
+              </label>
+            </div>
+            <div className="border-b border-gray-200 flex py-3 w-full justify-between">
+              <label className="text-center text-sm text-greyout">
+                {"Payment Type"}
+              </label>
+              <label className="text-center text-sm text-greyout">
+                {paymentType}
+              </label>
+            </div>
+            <div className="flex py-3 w-full justify-between">
+              <label className="text-center text-sm text-greyout">
+                {"Transanction Date"}
+              </label>
+              <label className="text-center text-sm text-greyout">
+                {transactionDate}
+              </label>
+            </div>
+          </div>
+        )}
       </div>
-      <Button title={"Download Receipt"} onClick={() => onDonwnloadPDF()} />
       <Button
+        disabled={transactionDate === ""}
+        title={"Download Receipt"}
+        onClick={() => onDonwnloadPDF()}
+      />
+      <Button
+        disabled={transactionDate === ""}
         secondary
         title={"Done"}
         onClick={() => {
-          window.close();
+          navigate("/", { replace: true });
         }}
         extraClass={"mt-4"}
       />

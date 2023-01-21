@@ -7,7 +7,7 @@ export const ErrorElement = () => {
   return (
     <div className="min-h-screen min-w-full bg-background">
       <Header />
-      <div className="flex p-4 pt-5 items-center justify-center min-h-full">
+      <div className="flex p-4 items-center justify-center pt-20">
         <label
           onClick={() => navigate("/donation")}
           className="text-center font-bold text-xl cursor-pointer text-blue-700"

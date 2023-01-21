@@ -4,7 +4,7 @@ export const ToastMsg = (msg, status) => {
     toast.warn(msg, {
       position: "top-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: true,
@@ -17,7 +17,7 @@ export const ToastMsg = (msg, status) => {
     toast.success(msg, {
       position: "top-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: true,
@@ -30,7 +30,7 @@ export const ToastMsg = (msg, status) => {
     toast.error(msg, {
       position: "top-right",
       autoClose: 5000,
-      hideProgressBar: false,
+      hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: true,
@@ -42,7 +42,7 @@ export const ToastMsg = (msg, status) => {
   toast.info(msg, {
     position: "top-right",
     autoClose: 5000,
-    hideProgressBar: false,
+    hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: false,
     draggable: true,

@@ -3,17 +3,22 @@ import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../checkoutForm";
 import { loadStripe } from "@stripe/stripe-js";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { StripeKey } from "../../config/config";
 
 export const Payment = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
-    setStripePromise(loadStripe(StripeKey));
-    setClientSecret(state.gateway_clientSecret);
+    if (state.gateway_clientSecret) {
+      setStripePromise(loadStripe(StripeKey));
+      setClientSecret(state.gateway_clientSecret);
+    } else {
+      navigate("/");
+    }
   }, []);
 
   return (
