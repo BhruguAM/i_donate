@@ -6,7 +6,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <header className="h-16 min-w-full bg-primary flex justify-between items-center px-4 sticky top-0 z-30">
+    <header className="h-16 min-w-full bg-primary flex justify-between items-center px-4 top-0 z-30">
       <div className="flex flex-1">
         {location.pathname.includes("/donation/details") && (
           <div onClick={() => navigate(-1)}>

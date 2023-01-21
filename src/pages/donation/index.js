@@ -10,6 +10,7 @@ export const Donation = () => {
 
   const { status, data, error, isFetching } = useDoantionList();
   const [donationCategories, setDonationCategories] = useState([]);
+  const [showDollar, setShowDollar] = useState(false);
   const [selectedDonationCategory, setSelectedDonationCategory] = useState({
     category_name: "select",
   });
@@ -85,10 +86,14 @@ export const Donation = () => {
             Doantion Amount
           </label>
           <div className="flex w-full">
-            <label className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2">
-              $
-            </label>
+            {(showDollar || amount !== "") && (
+              <label className="border-b border-primary text-sm text-greyout mt-4 pb-2">
+                {"$"}
+              </label>
+            )}
             <InputText
+              onFocus={() => setShowDollar(true)}
+              onBlur={() => setShowDollar(false)}
               extraclassName={"mt-4 pb-2 w-full"}
               type={"number"}
               value={amount}
