@@ -15,7 +15,7 @@ export const Header = () => {
         )}
       </div>
       <div className="font-semibold text-white text-xl flex flex-1 items-center justify-center">
-        IDonate
+        iDonate
       </div>
       <div className="flex flex-1"></div>
     </header>

@@ -56,6 +56,14 @@ export const Donation = () => {
           showValue={selectedDonationEvent.event_name}
           title={"Event Type"}
         />
+        {selectedDonationEvent.event_name === "Other" && (
+          <input
+            className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2 w-full"
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+            placeholder="Enter event name"
+          />
+        )}
         <div className="mt-5" />
         <Dropdown
           items={donationOrg}
@@ -72,14 +80,6 @@ export const Donation = () => {
           showValue={selectedDonationCategory.category_name}
           title={"Donation For"}
         />
-        {selectedDonationEvent.event_name === "Other" && (
-          <input
-            className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2 w-full"
-            value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
-            placeholder="Enter event name"
-          />
-        )}
         <div className="mt-5" />
         <div className="flex flex-col pb-5">
           <label className="text-sm font-medium text-primary">
