@@ -68,12 +68,10 @@ export const DonationDetails = () => {
       const res = await AddDonation(body);
       if (res.status) {
         setLoading(false);
-        setTimeout(() => {
-          navigate("/payment", {
-            state: { gateway_clientSecret: res.data.gateway_clientSecret },
-          });
-          setButtonDisable(false);
-        }, 1000);
+        navigate("/payment", {
+          state: { gateway_clientSecret: res.data.gateway_clientSecret },
+        });
+        setButtonDisable(false);
       } else {
         setLoading(false);
         ToastMsg(res.message, "error");
