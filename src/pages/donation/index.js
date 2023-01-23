@@ -69,7 +69,12 @@ export const Donation = () => {
           <input
             className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2 w-full"
             value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
+            onChange={(e) => {
+              const re = /^[A-Za-z\s]*$/;
+              if (e.target.value === "" || re.test(e.target.value)) {
+                setEventName(e.target.value);
+              }
+            }}
             placeholder="Enter event name"
           />
         )}
