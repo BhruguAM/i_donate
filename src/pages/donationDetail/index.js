@@ -122,7 +122,10 @@ export const DonationDetails = () => {
           if (k === 4) {
             return (
               <div className={`mb-3 flex w-full`}>
-                <div key={"details" + k} className={`mb-3 flex flex-col`}>
+                <div
+                  key={"details" + k}
+                  className={`mb-3 flex flex-col w-full mr-2`}
+                >
                   <label
                     id={i.name}
                     className="text-sm font-medium text-primary"
@@ -137,7 +140,10 @@ export const DonationDetails = () => {
                     onChange={(e) => onChangeInput(e, i, k)}
                   />
                 </div>
-                <div key={"details" + k + 1} className={`mb-3 flex flex-col`}>
+                <div
+                  key={"details" + k + 1}
+                  className={`mb-3 flex flex-col w-full ml-2`}
+                >
                   <label
                     id={formData[k + 1].name}
                     className="text-sm font-medium text-primary"
