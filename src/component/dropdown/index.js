@@ -13,9 +13,10 @@ export const Dropdown = ({
   onChange,
   title,
   showValue = "select",
+  disabled = false,
 }) => {
   return (
-    <Listbox value={value} onChange={onChange}>
+    <Listbox disabled={disabled} value={value} onChange={onChange}>
       {({ open }) => (
         <>
           {title && (
@@ -28,14 +29,16 @@ export const Dropdown = ({
               <span className="flex items-center">
                 <span className="block truncate text-greyout">{showValue}</span>
               </span>
-              <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                <img
-                  src={IcDownArrow}
-                  className="h-3 w-3 text-gray-400 object-contain"
-                  aria-hidden="true"
-                  alt=">"
-                />
-              </span>
+              {!disabled && (
+                <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                  <img
+                    src={IcDownArrow}
+                    className="h-3 w-3 text-gray-400 object-contain"
+                    aria-hidden="true"
+                    alt=">"
+                  />
+                </span>
+              )}
             </Listbox.Button>
 
             <Transition

@@ -13,10 +13,11 @@ module.exports = {
         },
       },
       colors: {
-        primary: "rgba(251, 155, 25, 1)",
+        primary: "rgba(245, 119, 2, 1)",
         greyout: "rgba(146, 144, 142, 1)",
         background: "rgba(250, 250, 250, 1)",
         title: "rgba(56, 33, 12, 1)",
+        loading: "rgba(150, 150, 150, 0.5)",
       },
     },
   },

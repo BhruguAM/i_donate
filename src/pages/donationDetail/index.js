@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Button, InputText } from "../../component";
+import { useLoadingContext } from "../../context";
 import { AddDonation } from "../../services/donation";
 
 import { ToastMsg } from "../../utils";
@@ -8,6 +9,7 @@ import { ToastMsg } from "../../utils";
 export const DonationDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { setLoading } = useLoadingContext();
   const [extra, setExtra] = useState(0);
   const [buttonDisable, setButtonDisable] = useState(true);
   const [formData, setFromData] = useState([
@@ -51,7 +53,7 @@ export const DonationDetails = () => {
     const getEmail = formData.find((i) => i.type === "email");
     // let validRegex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
     if (validateEmail(getEmail.value)) {
-      ToastMsg("...Sending Data", "info");
+      setLoading(true);
       const body = {
         ...state,
         name: formData[0].value,
@@ -65,7 +67,7 @@ export const DonationDetails = () => {
       };
       const res = await AddDonation(body);
       if (res.status) {
-        ToastMsg(res.message, "success");
+        setLoading(false);
         setTimeout(() => {
           navigate("/payment", {
             state: { gateway_clientSecret: res.data.gateway_clientSecret },
@@ -73,10 +75,12 @@ export const DonationDetails = () => {
           setButtonDisable(false);
         }, 1000);
       } else {
+        setLoading(false);
         ToastMsg(res.message, "error");
         setButtonDisable(false);
       }
     } else {
+      setLoading(false);
       ToastMsg("Please enter valid email address", "error");
       setButtonDisable(false);
     }
@@ -106,25 +110,66 @@ export const DonationDetails = () => {
 
   return (
     <div>
-      <div className={`px-5 py-5 shadow-md mb-5 rounded-md bg-white`}>
-        <label className={`text-title font-semibold text-base`}>
-          Donar Detail
-        </label>
-        <div className="mt-5" />
-        {formData.map((i, k) => (
-          <div key={"details" + k} className="flex flex-col mb-3">
-            <label id={i.name} className="text-sm font-medium text-primary">
-              {i.title}
-            </label>
-            <InputText
-              id={i.name}
-              name={i.name}
-              type={i.type}
-              value={i.value}
-              onChange={(e) => onChangeInput(e, i, k)}
-            />
-          </div>
-        ))}
+      <label className={`text-title font-bold text-lg mb-5`}>
+        {"Donar Detail"}
+      </label>
+      <div className={`px-5 py-2 shadow-md mb-5 rounded-md bg-white`}>
+        <div className="mt-5 flex" />
+        {formData.map((i, k) => {
+          if (k === 5) {
+            return null;
+          }
+          if (k === 4) {
+            return (
+              <div className={`mb-3 flex w-full`}>
+                <div key={"details" + k} className={`mb-3 flex flex-col`}>
+                  <label
+                    id={i.name}
+                    className="text-sm font-medium text-primary"
+                  >
+                    {i.title}
+                  </label>
+                  <InputText
+                    id={i.name}
+                    name={i.name}
+                    type={i.type}
+                    value={i.value}
+                    onChange={(e) => onChangeInput(e, i, k)}
+                  />
+                </div>
+                <div key={"details" + k + 1} className={`mb-3 flex flex-col`}>
+                  <label
+                    id={formData[k + 1].name}
+                    className="text-sm font-medium text-primary"
+                  >
+                    {formData[k + 1].title}
+                  </label>
+                  <InputText
+                    id={formData[k + 1].name}
+                    name={formData[k + 1].name}
+                    type={formData[k + 1].type}
+                    value={formData[k + 1].value}
+                    onChange={(e) => onChangeInput(e, formData[k + 1], k + 1)}
+                  />
+                </div>
+              </div>
+            );
+          }
+          return (
+            <div key={"details" + k} className={`mb-3 flex flex-col`}>
+              <label id={i.name} className="text-sm font-medium text-primary">
+                {i.title}
+              </label>
+              <InputText
+                id={i.name}
+                name={i.name}
+                type={i.type}
+                value={i.value}
+                onChange={(e) => onChangeInput(e, i, k)}
+              />
+            </div>
+          );
+        })}
       </div>
       <Button
         disabled={buttonDisable}

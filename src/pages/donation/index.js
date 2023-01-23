@@ -44,10 +44,19 @@ export const Donation = () => {
 
   return (
     <div>
+      <label className={`text-title font-bold text-lg mb-5`}>
+        {"Donation Detail"}
+      </label>
       <div className={`px-5 py-5 shadow-md mb-5 rounded-md bg-white`}>
-        <label className={`text-title font-semibold text-base`}>
-          Donation Detail
-        </label>
+        <div className="mt-5" />
+        <Dropdown
+          disabled={donationOrg.length === 1}
+          items={donationOrg}
+          onChange={setSelectedDonationOrg}
+          value={selectedDonationOrg}
+          showValue={selectedDonationOrg.organization_name}
+          title={"Donation To"}
+        />
         <div className="mt-5" />
         <Dropdown
           items={donationEvent}
@@ -64,14 +73,6 @@ export const Donation = () => {
             placeholder="Enter event name"
           />
         )}
-        <div className="mt-5" />
-        <Dropdown
-          items={donationOrg}
-          onChange={setSelectedDonationOrg}
-          value={selectedDonationOrg}
-          showValue={selectedDonationOrg.organization_name}
-          title={"Donation To"}
-        />
         <div className="mt-5" />
         <Dropdown
           items={donationCategories}
@@ -98,7 +99,12 @@ export const Donation = () => {
             <InputText
               id={"text"}
               onFocus={() => setShowDollar(true)}
-              onBlur={() => setShowDollar(false)}
+              onBlur={() => {
+                setShowDollar(false);
+                if (amount !== "") {
+                  setAmount(Number(amount).toFixed(2));
+                }
+              }}
               extraclassName={"mt-4 pb-2 w-full"}
               type={"number"}
               value={amount}

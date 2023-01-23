@@ -67,9 +67,9 @@ export const Success = () => {
   return (
     <div>
       <div
-        className={`px-5 py-5 shadow-md mb-5 rounded-md bg-white flex flex-col items-center`}
+        className={`px-5 pb-5 shadow-md mb-5 rounded-md bg-white flex flex-col items-center`}
       >
-        <div className="h-52 w-52 animate-wiggle">
+        <div className="h-48 w-48 animate-wiggle">
           <div id="LoadingAnimation" />
         </div>
         <label className="text-center text-2xl text-primary">
@@ -99,7 +99,7 @@ export const Success = () => {
                 {"Total Amount"}
               </label>
               <label className="text-center text-sm text-greyout">
-                {totalAmout}
+                {`$ ${Number(totalAmout).toFixed(2)}`}
               </label>
             </div>
             <div className="border-b border-gray-200 flex py-3 w-full justify-between">
