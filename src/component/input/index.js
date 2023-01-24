@@ -9,12 +9,14 @@ export const InputText = ({
   onFocus,
   onBlur,
   id,
+  placeholder = "",
 }) => {
   if (type === "number") {
     return (
       <input
         inputmode="numeric"
         pattern={"[0-9]"}
+        placeholder={placeholder}
         id={id}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -29,6 +31,7 @@ export const InputText = ({
   return (
     <input
       id={id}
+      placeholder={placeholder}
       onFocus={onFocus}
       onBlur={onBlur}
       name={name}

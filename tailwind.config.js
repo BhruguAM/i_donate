@@ -12,6 +12,9 @@ module.exports = {
           "50%": { transform: "rotate(5deg)" },
         },
       },
+      fontFamily: {
+        inter: "Inter",
+      },
       colors: {
         primary: "rgba(245, 119, 2, 1)",
         greyout: "rgba(146, 144, 142, 1)",

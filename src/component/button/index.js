@@ -8,6 +8,7 @@ export const Button = ({
   id,
   secondary,
   extraClass,
+  white,
 }) => {
   return (
     <button
@@ -16,15 +17,15 @@ export const Button = ({
       disabled={disabled}
       className={`bg-primary py-4 w-full rounded-md flex justify-center active:scale-95 ${
         extraClass || ""
-      } ${secondary && "bg-gray-300"} ${
+      } ${secondary && "bg-gray-300"}  ${white && "bg-white"} ${
         disabled && "pointer-events-none opacity-60"
       }`}
     >
       <div className="flex ">
         <label
           className={`font-semibold text-white text-base cursor-pointer ${
-            secondary && "text-greyout"
-          }`}
+            secondary && "text-slate-700"
+          } ${white && "text-primary"}`}
         >
           {title}
         </label>
