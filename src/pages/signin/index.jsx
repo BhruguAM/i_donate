@@ -100,18 +100,23 @@ export const SignIn = () => {
           </label>
         </div>
       </div>
-      <Button extraClass={"max-w-2xl"} white={true} title={"Login"} />
+      <Button
+        onClick={() => console.log("signin")}
+        extraClass={"max-w-2xl z-10"}
+        white={true}
+        title={"Login"}
+      />
       <Button
         onClick={() => navigate("/donation")}
-        extraClass={"max-w-2xl mt-4"}
+        extraClass={"max-w-2xl mt-4 z-10"}
         secondary
         title={"Continue As a guest"}
       />
-      <text className="text-lg font-medium text-white mt-5">
-        {"Don’t have an account?"}{" "}
+      <text className="text-lg font-medium text-white mt-5 z-10">
+        {"Don’t have an account? "}
         <span
           onClick={() => console.log("signin")}
-          className="font-bold text-xl cursor-pointer"
+          className="font-bold text-xl cursor-pointer z-10"
         >
           {"Sign Up"}
         </span>

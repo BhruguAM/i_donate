@@ -11,8 +11,9 @@ import {
   Success,
 } from "../pages";
 
-const ProtectedRoutes = () => {
-  return <Navigate to={"/auth/signin"} />;
+const ProtectedRoutes = ({ children }) => {
+  // return <Navigate to={"/auth/signin"} />;
+  return children;
 };
 
 const router = createBrowserRouter([
