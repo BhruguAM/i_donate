@@ -4,10 +4,12 @@ import IcRightArrow from "../../assets/icons/ic-right-arrow.svg";
 import { useDoantionList } from "../../services/donation";
 import { useNavigate } from "react-router-dom";
 import { ToastMsg } from "../../utils";
+import { useHeaderContext } from "../../context";
 
 export const Donation = () => {
   const navigation = useNavigate();
-
+  const headerCtx = useHeaderContext();
+  headerCtx.setHeader("iDonate");
   const { status, data, error, isFetching } = useDoantionList();
   const [donationCategories, setDonationCategories] = useState([]);
   const [showDollar, setShowDollar] = useState(false);

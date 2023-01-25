@@ -4,3 +4,6 @@ export * from "./payment";
 export * from "./success";
 export * from "./errorElement";
 export * from "./signin";
+export * from "./signup";
+export * from "./addressInfo";
+export * from "./createPassword";

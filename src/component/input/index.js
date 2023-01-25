@@ -10,10 +10,12 @@ export const InputText = ({
   onBlur,
   id,
   placeholder = "",
+  maxLength = 100,
 }) => {
   if (type === "number") {
     return (
       <input
+        maxLength={maxLength}
         inputmode="numeric"
         pattern={"[0-9]"}
         placeholder={placeholder}
@@ -30,6 +32,7 @@ export const InputText = ({
   }
   return (
     <input
+      maxLength={maxLength}
       id={id}
       placeholder={placeholder}
       onFocus={onFocus}

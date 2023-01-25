@@ -7,9 +7,14 @@ import IcPassShow from "../../assets/icons/ic-pass-show.png";
 import IcPassHide from "../../assets/icons/ic-pass-hide.png";
 import { Button, InputText } from "../../component";
 import { useNavigate } from "react-router-dom";
+import { useHeaderContext, useLoadingContext } from "../../context";
+import { SignInAPI } from "../../services/auth";
+import { ToastMsg } from "../../utils";
 
 export const SignIn = () => {
   const navigate = useNavigate();
+  const headerCtx = useHeaderContext();
+  const { setLoading } = useLoadingContext();
   const [memberId, setMemberId] = useState(false);
   const [member, setMember] = useState("");
   const [mobileNo, setMobileNo] = useState(false);
@@ -17,6 +22,28 @@ export const SignIn = () => {
   const [password, setPassword] = useState(false);
   const [paswordData, setPasswordData] = useState("");
   const [passType, setPassType] = useState(true);
+
+  headerCtx.setHeader("");
+
+  const onSignIn = async () => {
+    setLoading(true);
+    let body = { password: password };
+    if (member !== "") {
+      body = { ...body, memberId: member };
+    } else {
+      body = { ...body, phone: mobile };
+    }
+    const res = await SignInAPI(body);
+    setLoading(false);
+    console.log("SignInAPI", res);
+    if (res.status) {
+      ToastMsg(res.message, "success");
+      localStorage.setItem("token", "data.token");
+      navigate("/");
+    } else {
+      ToastMsg(res.message, "error");
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-full">
@@ -78,6 +105,7 @@ export const SignIn = () => {
           </label>
           <InputText
             id={"password"}
+            maxLength={8}
             onFocus={() => setPassword(true)}
             onBlur={() => setPassword(false)}
             extraclassName={"mt-4 pb-2 w-full"}
@@ -101,7 +129,7 @@ export const SignIn = () => {
         </div>
       </div>
       <Button
-        onClick={() => console.log("signin")}
+        onClick={() => onSignIn()}
         extraClass={"max-w-2xl z-10"}
         white={true}
         title={"Login"}
@@ -115,7 +143,7 @@ export const SignIn = () => {
       <text className="text-lg font-medium text-white mt-5 z-10">
         {"Don’t have an account? "}
         <span
-          onClick={() => console.log("signin")}
+          onClick={() => navigate("/auth/signup")}
           className="font-bold text-xl cursor-pointer z-10"
         >
           {"Sign Up"}

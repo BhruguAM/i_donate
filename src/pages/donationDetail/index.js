@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Button, InputText } from "../../component";
-import { useLoadingContext } from "../../context";
+import { useHeaderContext, useLoadingContext } from "../../context";
 import { AddDonation } from "../../services/donation";
 
 import { ToastMsg } from "../../utils";
+import { validateEmail } from "../../utils/validate";
 
 export const DonationDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const headerCtx = useHeaderContext();
+  headerCtx.setHeader("iDonate");
   const { setLoading } = useLoadingContext();
   const [extra, setExtra] = useState(0);
   const [buttonDisable, setButtonDisable] = useState(true);
@@ -40,12 +43,6 @@ export const DonationDetails = () => {
       }
     }
   }, [extra]);
-
-  const validateEmail = (email) => {
-    return email.match(
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-  };
 
   const onSubmitForm = async (e) => {
     setButtonDisable(true);

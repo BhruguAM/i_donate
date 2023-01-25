@@ -3,17 +3,23 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import AuthContainer from "../container/AuthContainer";
 import MainContainer from "../container/MainContainer";
 import {
+  AddressInfo,
+  CreatePassword,
   Donation,
   DonationDetails,
   ErrorElement,
   Payment,
   SignIn,
+  SignUp,
   Success,
 } from "../pages";
 
 const ProtectedRoutes = ({ children }) => {
-  // return <Navigate to={"/auth/signin"} />;
-  return children;
+  if (localStorage.getItem("token")) {
+    return children;
+  } else {
+    return <Navigate to={"/auth/signin"} />;
+  }
 };
 
 const router = createBrowserRouter([
@@ -21,13 +27,17 @@ const router = createBrowserRouter([
     errorElement: <ErrorElement />,
     children: [
       {
-        path: "/",
-        element: (
-          <ProtectedRoutes>
-            <MainContainer />
-          </ProtectedRoutes>
-        ),
+        element: <MainContainer />,
         children: [
+          {
+            path: "/",
+            element: (
+              <ProtectedRoutes>
+                <ErrorElement />
+              </ProtectedRoutes>
+            ),
+            //   loader: teamLoader,
+          },
           {
             path: "/donation",
             element: <Donation />,
@@ -57,6 +67,18 @@ const router = createBrowserRouter([
           {
             path: "/auth/signin",
             element: <SignIn />,
+          },
+          {
+            path: "/auth/signup",
+            element: <SignUp />,
+          },
+          {
+            path: "/auth/addressInfo",
+            element: <AddressInfo />,
+          },
+          {
+            path: "/auth/createPassword",
+            element: <CreatePassword />,
           },
         ],
       },
