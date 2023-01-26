@@ -27,13 +27,14 @@ export const SignIn = () => {
 
   const onSignIn = async () => {
     setLoading(true);
-    let body = { password: password };
+    let body = { password: paswordData };
     if (member !== "") {
       body = { ...body, memberId: member };
     } else {
       body = { ...body, phone: mobile };
     }
     const res = await SignInAPI(body);
+    console.log("SignInAPI", res);
     setLoading(false);
     console.log("SignInAPI", res);
     if (res.status) {
@@ -140,7 +141,7 @@ export const SignIn = () => {
         secondary
         title={"Continue As a guest"}
       />
-      <text className="text-lg font-medium text-white mt-5 z-10">
+      <label className="text-lg font-medium text-white mt-5 z-10">
         {"Don’t have an account? "}
         <span
           onClick={() => navigate("/auth/signup")}
@@ -148,7 +149,7 @@ export const SignIn = () => {
         >
           {"Sign Up"}
         </span>
-      </text>
+      </label>
     </div>
   );
 };
