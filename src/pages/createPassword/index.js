@@ -4,7 +4,12 @@ import IcPassShow from "../../assets/icons/ic-pass-show.png";
 import IcPassHide from "../../assets/icons/ic-pass-hide.png";
 import { Button, InputText } from "../../component";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useHeaderContext, useLoadingContext } from "../../context";
+import {
+  ModalContext,
+  useHeaderContext,
+  useLoadingContext,
+  useModalContext,
+} from "../../context";
 import { validatePassword } from "../../utils/validate";
 import { SignUpAPI } from "../../services/auth";
 import { ToastMsg } from "../../utils";
@@ -13,6 +18,7 @@ export const CreatePassword = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { setLoading } = useLoadingContext();
+  const { setOpen, setOkay, ModalData } = useModalContext();
   const headerCtx = useHeaderContext();
   const [password, setPassword] = useState(false);
   const [paswordData, setPasswordData] = useState("");
@@ -37,6 +43,35 @@ export const CreatePassword = () => {
     setIsDisable(disableButton);
   }, [paswordData, confirmPaswordData]);
 
+  const ModalOutput = ({ memberId }) => {
+    return (
+      <div className="flex flex-col flex-1 p-4 items-center justify-center bg-white">
+        <label className="text-lg font-medium text-black">
+          Please Note your Member Id
+        </label>
+        <div className="mx-5">
+          <label className="text-lg font-medium text-black font-bold">
+            {memberId}
+          </label>
+          <label
+            className="text-center items-center justify-center text-primary font-semibold ml-2"
+            onClick={() => navigator.clipboard.writeText(memberId)}
+          >
+            Copy
+          </label>
+        </div>
+        <Button
+          extraClass={"mt-5"}
+          title={"Go to SignIn"}
+          onClick={() => {
+            setOpen(false);
+            setOkay(true);
+            navigate("/auth/signin");
+          }}
+        />
+      </div>
+    );
+  };
   const onSignUp = async () => {
     setLoading(true);
     const res = await SignUpAPI({ ...state, password: paswordData });
@@ -44,7 +79,10 @@ export const CreatePassword = () => {
     setLoading(false);
     if (res.status) {
       ToastMsg(res.message, "success");
-      navigate("/auth/signin");
+      ModalData(<ModalOutput memberId={res.data.memberId} />);
+      setOkay(false);
+      setOpen(true);
+      // navigate("/auth/signin");
     } else {
       ToastMsg(res.message, "error");
     }
@@ -52,7 +90,7 @@ export const CreatePassword = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-full">
-      <div className="w-full max-w-2xl mt-10 mb-3">
+      <div className="w-full max-w-2xl mb-3">
         <label className="text-3xl font-bold text-white">Create Password</label>
       </div>
       <div
@@ -124,7 +162,7 @@ export const CreatePassword = () => {
         </div>
       </div>
       <Button
-        disabled={isDisable}
+        // disabled={isDisable}
         onClick={() => onSignUp()}
         extraClass={"max-w-2xl z-10"}
         white={true}

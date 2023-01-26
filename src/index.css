@@ -13,3 +13,12 @@ textarea:focus,
 input:focus {
   outline: none;
 }
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+}
+.date_ios {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

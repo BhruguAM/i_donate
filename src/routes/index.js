@@ -8,18 +8,21 @@ import {
   Donation,
   DonationDetails,
   ErrorElement,
+  History,
   Payment,
   SignIn,
   SignUp,
   Success,
 } from "../pages";
+import { getWithExpiry } from "../utils";
 
 const ProtectedRoutes = ({ children }) => {
-  if (localStorage.getItem("token")) {
-    return children;
-  } else {
-    return <Navigate to={"/auth/signin"} />;
-  }
+  // console.log("getWithExpiry", getWithExpiry("token"));
+  // if (getWithExpiry("token")) {
+  return children;
+  // } else {
+  // return <Navigate to={"/auth/signin"} />;
+  // }
 };
 
 const router = createBrowserRouter([
@@ -33,7 +36,7 @@ const router = createBrowserRouter([
             path: "/",
             element: (
               <ProtectedRoutes>
-                <ErrorElement />
+                <History />
               </ProtectedRoutes>
             ),
             //   loader: teamLoader,

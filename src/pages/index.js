@@ -7,3 +7,4 @@ export * from "./signin";
 export * from "./signup";
 export * from "./addressInfo";
 export * from "./createPassword";
+export * from "./history";

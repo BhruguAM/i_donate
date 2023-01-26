@@ -103,7 +103,7 @@ export const SignUp = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-full">
-      <div className="w-full max-w-2xl mt-10 mb-3">
+      <div className="w-full max-w-2xl mb-3">
         <label className="text-3xl font-bold text-white">Personal Info</label>
       </div>
       <div
@@ -265,7 +265,7 @@ export const SignUp = () => {
             id={"dob"}
             onFocus={() => setDateFocus(true)}
             onBlur={() => setDateFocus(false)}
-            extraclassName={"mt-4 pb-2 w-full"}
+            extraclassName={"mt-4 pb-2 w-full date_ios"}
             type={"date"}
             value={dateValue}
             placeholder={"DOB"}

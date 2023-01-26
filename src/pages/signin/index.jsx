@@ -9,7 +9,7 @@ import { Button, InputText } from "../../component";
 import { useNavigate } from "react-router-dom";
 import { useHeaderContext, useLoadingContext } from "../../context";
 import { SignInAPI } from "../../services/auth";
-import { ToastMsg } from "../../utils";
+import { setWithExpiry, ToastMsg } from "../../utils";
 
 export const SignIn = () => {
   const navigate = useNavigate();
@@ -39,7 +39,8 @@ export const SignIn = () => {
     console.log("SignInAPI", res);
     if (res.status) {
       ToastMsg(res.message, "success");
-      localStorage.setItem("token", "data.token");
+      setWithExpiry("token", res.data.token);
+      setWithExpiry("member", res.data.member_details);
       navigate("/");
     } else {
       ToastMsg(res.message, "error");
@@ -49,11 +50,11 @@ export const SignIn = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-full">
       <img className="w-24 object-contain" src={IcDonte} alt="background" />
-      <label className="font-inter font-semibold text-4xl text-white mt-3">
+      <label className="font-inter font-semibold text-4xl text-white mt-2">
         iDonate
       </label>
       <div
-        className={`px-5 py-5 shadow-md mb-5 rounded-md bg-white w-full max-w-2xl z-10 mt-16`}
+        className={`px-5 pb-5 pt-2 shadow-md mb-5 rounded-md bg-white w-full max-w-2xl z-10 mt-10`}
       >
         <div className="flex w-full">
           <label

@@ -69,7 +69,7 @@ export const AddressInfo = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-full">
-      <div className="w-full max-w-2xl mt-10 mb-3">
+      <div className="w-full max-w-2xl mb-3">
         <label className="text-3xl font-bold text-white">Address Info</label>
       </div>
       <div
