@@ -162,7 +162,7 @@ export const CreatePassword = () => {
         </div>
       </div>
       <Button
-        // disabled={isDisable}
+        disabled={isDisable}
         onClick={() => onSignUp()}
         extraClass={"max-w-2xl z-10"}
         white={true}
