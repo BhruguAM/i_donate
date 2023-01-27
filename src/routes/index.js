@@ -17,12 +17,12 @@ import {
 import { getWithExpiry } from "../utils";
 
 const ProtectedRoutes = ({ children }) => {
-  // console.log("getWithExpiry", getWithExpiry("token"));
-  // if (getWithExpiry("token")) {
-  return children;
-  // } else {
-  // return <Navigate to={"/auth/signin"} />;
-  // }
+  console.log("getWithExpiry", getWithExpiry("token"));
+  if (getWithExpiry("token")) {
+    return children;
+  } else {
+    return <Navigate to={"/auth/signin"} />;
+  }
 };
 
 const router = createBrowserRouter([

@@ -5,10 +5,14 @@ import CheckoutForm from "../checkoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLocation, useNavigate } from "react-router-dom";
 import { StripeKey } from "../../config/config";
+import { useHeaderContext } from "../../context";
 
 export const Payment = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const headerCtx = useHeaderContext();
+  headerCtx.setHeader("Card Details");
+  headerCtx.setIsBack(true);
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
 
@@ -23,9 +27,9 @@ export const Payment = () => {
 
   return (
     <>
-      <h1 className="text-primary font-bold mb-5">
+      {/* <h1 className="text-primary font-bold mb-5">
         Add Card Detail for Payment
-      </h1>
+      </h1> */}
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm />

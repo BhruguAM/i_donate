@@ -9,7 +9,8 @@ import { useHeaderContext } from "../../context";
 export const Donation = () => {
   const navigation = useNavigate();
   const headerCtx = useHeaderContext();
-  headerCtx.setHeader("iDonate");
+  headerCtx.setHeader("Donation Detail");
+  headerCtx.setIsBack(true);
   const { status, data, error, isFetching } = useDoantionList();
   const [donationCategories, setDonationCategories] = useState([]);
   const [showDollar, setShowDollar] = useState(false);
@@ -46,9 +47,9 @@ export const Donation = () => {
 
   return (
     <div>
-      <label className={`text-title font-bold text-lg mb-5`}>
+      {/* <label className={`text-title font-bold text-lg mb-5`}>
         {"Donation Detail"}
-      </label>
+      </label> */}
       <div className={`px-5 py-5 shadow-md mb-5 rounded-md bg-white`}>
         <div className="mt-5" />
         <Dropdown
@@ -56,7 +57,7 @@ export const Donation = () => {
           items={donationOrg}
           onChange={setSelectedDonationOrg}
           value={selectedDonationOrg}
-          showValue={selectedDonationOrg.organization_name}
+          showValue={selectedDonationOrg?.organization_name}
           title={"Donation To"}
         />
         <div className="mt-5" />
@@ -64,10 +65,10 @@ export const Donation = () => {
           items={donationEvent}
           onChange={setSelectedDonationEvent}
           value={selectedDonationEvent}
-          showValue={selectedDonationEvent.event_name}
+          showValue={selectedDonationEvent?.event_name}
           title={"Event Type"}
         />
-        {selectedDonationEvent.event_name === "Other" && (
+        {selectedDonationEvent?.event_name === "Other" && (
           <input
             className="border-b border-gray-300 text-sm text-greyout mt-4 pb-2 w-full"
             value={eventName}
@@ -85,7 +86,7 @@ export const Donation = () => {
           items={donationCategories}
           onChange={setSelectedDonationCategory}
           value={selectedDonationCategory}
-          showValue={selectedDonationCategory.category_name}
+          showValue={selectedDonationCategory?.category_name}
           title={"Donation For"}
         />
         <div className="mt-5" />

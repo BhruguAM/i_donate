@@ -4,26 +4,70 @@ import { Button, InputText } from "../../component";
 import { useHeaderContext, useLoadingContext } from "../../context";
 import { AddDonation } from "../../services/donation";
 
-import { ToastMsg } from "../../utils";
+import { getWithExpiry, ToastMsg } from "../../utils";
 import { validateEmail } from "../../utils/validate";
 
 export const DonationDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const headerCtx = useHeaderContext();
-  headerCtx.setHeader("iDonate");
   const { setLoading } = useLoadingContext();
+  const member = getWithExpiry("member");
+  headerCtx.setHeader("Donar Details");
+  headerCtx.setIsBack(true);
   const [extra, setExtra] = useState(0);
   const [buttonDisable, setButtonDisable] = useState(true);
   const [formData, setFromData] = useState([
-    { title: "Name", name: "Name", value: "", type: "text" },
-    { title: "Address 1", name: "Address 1", value: "", type: "text" },
-    { title: "Address 2", name: "Address 2", value: "", type: "text" },
-    { title: "City", name: "City", value: "", type: "text" },
-    { title: "State", name: "State", value: "", type: "text" },
-    { title: "ZIP", name: "ZIP", value: "", type: "number" },
-    { title: "Phone Number", name: "Phone Number", value: "", type: "number" },
-    { title: "Email", name: "Email", value: "", type: "email" },
+    {
+      title: "Name",
+      name: "Name",
+      value: member
+        ? member.first_name + " " + member.middle_name + " " + member.last_name
+        : "",
+      type: "text",
+    },
+    {
+      title: "Address 1",
+      name: "Address 1",
+      value: member ? member.address_line1 : "",
+      type: "text",
+    },
+    {
+      title: "Address 2",
+      name: "Address 2",
+      value: member ? member.address_line2 : "",
+      type: "text",
+    },
+    {
+      title: "City",
+      name: "City",
+      value: member ? member.city : "",
+      type: "text",
+    },
+    {
+      title: "State",
+      name: "State",
+      value: member ? member.state : "",
+      type: "text",
+    },
+    {
+      title: "ZIP",
+      name: "ZIP",
+      value: member ? member.zip : "",
+      type: "number",
+    },
+    {
+      title: "Phone Number",
+      name: "Phone Number",
+      value: member ? member.phone : "",
+      type: "number",
+    },
+    {
+      title: "Email",
+      name: "Email",
+      value: member ? member.email : "",
+      type: "email",
+    },
   ]);
 
   useEffect(() => {
@@ -105,9 +149,9 @@ export const DonationDetails = () => {
 
   return (
     <div>
-      <label className={`text-title font-bold text-lg mb-5`}>
+      {/* <label className={`text-title font-bold text-lg mb-5`}>
         {"Donar Detail"}
-      </label>
+      </label> */}
       <div className={`px-5 py-2 shadow-md mb-5 rounded-md bg-white`}>
         <div className="mt-5 flex" />
         {formData.map((i, k) => {
