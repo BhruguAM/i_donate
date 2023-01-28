@@ -20,7 +20,9 @@ export const AddDonation = async (data) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Header.Authorization,
+      Authorization: getWithExpiry("token")
+        ? "Bearer " + getWithExpiry("token")
+        : "",
     },
     body: JSON.stringify(data),
   })

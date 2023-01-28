@@ -90,9 +90,10 @@ export const DonationDetails = () => {
 
   const onSubmitForm = async (e) => {
     setButtonDisable(true);
-    e.stopPropagation();
+    // e.stopPropagation();
     const getEmail = formData.find((i) => i.type === "email");
     // let validRegex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+    console.log("state", state);
     if (validateEmail(getEmail.value)) {
       setLoading(true);
       const body = {
@@ -102,9 +103,10 @@ export const DonationDetails = () => {
         address_line2: formData[2].value,
         city: formData[3].value,
         state: formData[4].value,
-        country_code: formData[5].value,
+        country_code: +1,
         phone: formData[6].value,
         email: formData[7].value,
+        zip: formData[5].value,
       };
       const res = await AddDonation(body);
       if (res.status) {

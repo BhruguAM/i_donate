@@ -153,7 +153,7 @@ export const History = () => {
       )}
       <div
         onClick={() => navigate("/donation")}
-        className="flex mt-2 mb-2 text-primary items-center justify-center"
+        className="flex mt-2 p-2 mb-2 text-primary items-center justify-center fixed bottom-0 left-0 right-0 bg-gray-300 rounded-full "
       >
         <label className=" text-lg font-semibold text-center">
           Go to Donation Page
