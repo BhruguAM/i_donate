@@ -23,7 +23,7 @@ export const History = () => {
   useEffect(() => {
     headerCtx.setHeader("Donations");
     headerCtx.setIsBack(false);
-    console.log("Loading", data, isLoading, isFetching);
+    // console.log("Loading", data, isLoading, isFetching);
     if (!isFetching) {
       if (data.status) {
         setHistoryData(data.data);
@@ -89,7 +89,11 @@ export const History = () => {
         <Button
           disabled={!item}
           title={"Download Receipt"}
-          onClick={() => window.open(BaseUrl + "/" + link)}
+          onClick={() => {
+            window.open(BaseUrl + "/" + link);
+            setOkay(true);
+            setOpen(false);
+          }}
         />
         <Button
           secondary
