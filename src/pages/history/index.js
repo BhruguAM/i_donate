@@ -39,7 +39,7 @@ export const History = () => {
           className={`px-5 pb-5 shadow-md mb-5 rounded-md bg-white flex flex-col items-center`}
         >
           <label className="text-center text-base text-greyout">
-            {item.donations[0].donar_full_name}
+            {item.donar_full_name}
           </label>
           <label className="text-center text-base text-greyout">
             {item.donation_event.event_name +
@@ -57,7 +57,7 @@ export const History = () => {
                 {"Invoice Number"}
               </label>
               <label className="text-center text-sm text-greyout">
-                {`#${item.gateway_paymentIntentKey.substring(19)}`}
+                {`#${item.payment.gateway_paymentIntentKey.substring(19)}`}
               </label>
             </div>
             <div className="border-b border-gray-200 flex py-3 w-full justify-between">
@@ -65,7 +65,7 @@ export const History = () => {
                 {"Total Amount"}
               </label>
               <label className="text-center text-sm text-greyout">
-                {`$ ${Number(item.donations[0].donation_amount).toFixed(2)}`}
+                {`$ ${Number(item.donation_amount).toFixed(2)}`}
               </label>
             </div>
             <div className="border-b border-gray-200 flex py-3 w-full justify-between">
@@ -79,7 +79,7 @@ export const History = () => {
                 {"Transanction Date"}
               </label>
               <label className="text-center text-sm text-greyout">
-                {new Date(item.donations[0].donation_date).toDateString()}
+                {new Date(item.donation_date).toDateString()}
               </label>
             </div>
           </div>
@@ -133,7 +133,7 @@ export const History = () => {
   };
 
   return (
-    <div>
+    <div className="pb-5">
       {historyData?.length > 0 ? (
         <div className={`px-5 pt-4 pb-1 shadow-md mb-5 rounded-md bg-white`}>
           {React.Children.toArray(
@@ -153,7 +153,7 @@ export const History = () => {
       )}
       <div
         onClick={() => navigate("/donation")}
-        className="flex mt-2 p-2 mb-2 text-primary items-center justify-center fixed bottom-0 left-0 right-0 bg-gray-300 rounded-full "
+        className="flex mt-2 p-2 mb-2 text-white items-center justify-center fixed bottom-0 left-0 right-0 bg-primary rounded-full "
       >
         <label className=" text-lg font-semibold text-center">
           Go to Donation Page

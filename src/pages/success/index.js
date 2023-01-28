@@ -40,8 +40,8 @@ export const Success = () => {
         let paymentDetails = res.data.payment_details;
         setTotalAmout(paymentDetails.amount);
         setRecieptNumber(
-          paymentDetails.gateway_paymentIntentKey.substring(
-            paymentDetails.gateway_paymentIntentKey.length - 8
+          paymentDetails.payment.gateway_paymentIntentKey.substring(
+            paymentDetails.payment.gateway_paymentIntentKey.length - 8
           )
         );
         const date = new Date(paymentDetails.payment_date);
