@@ -44,9 +44,7 @@ export const SignIn = () => {
       ToastMsg(res.message, "success");
       setWithExpiry("token", res.data.token);
       setWithExpiry("member", res.data.member_details);
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      navigate("/");
     } else {
       ToastMsg(res.message, "error");
     }

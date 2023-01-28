@@ -23,13 +23,10 @@ export const History = () => {
   useEffect(() => {
     headerCtx.setHeader("Donations");
     headerCtx.setIsBack(false);
-    // console.log("Loading", data, isLoading, isFetching);
     if (!isFetching) {
       if (data.status) {
         setHistoryData(data.data);
         setExtra(extra + 1);
-      } else {
-        navigate("/auth/signin");
       }
     }
   }, [isFetching]);
