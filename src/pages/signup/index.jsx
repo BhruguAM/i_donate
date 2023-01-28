@@ -47,7 +47,7 @@ export const SignUp = () => {
     } else {
       // ToastMsg("fetching...", "info");
     }
-  }, [data.data.organizations, data?.status, isFetching]);
+  }, [isFetching]);
 
   useEffect(() => {
     headerCtx.setHeader("Sign Up");
