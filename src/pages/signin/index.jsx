@@ -23,7 +23,10 @@ export const SignIn = () => {
   const [paswordData, setPasswordData] = useState("");
   const [passType, setPassType] = useState(true);
 
-  headerCtx.setHeader("");
+  useEffect(() => {
+    headerCtx.setHeader("");
+    headerCtx.setIsBack(false);
+  }, []);
 
   const onSignIn = async () => {
     setLoading(true);
