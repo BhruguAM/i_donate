@@ -5,6 +5,7 @@ import { Button } from "../../component";
 import { PaymentDetails } from "../../services/payment";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { BaseUrl } from "../../config/config";
+import { ToastMsg } from "../../utils";
 
 export const Success = () => {
   const location = useLocation();
@@ -45,6 +46,8 @@ export const Success = () => {
         );
         const date = new Date(paymentDetails.payment_date);
         setTransactionDate(date.toLocaleString());
+      } else {
+        ToastMsg(res.message, "error");
       }
     }
   };

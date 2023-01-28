@@ -36,9 +36,6 @@ export const SignUp = () => {
   const [dateValue, setDateValue] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
-  headerCtx.setHeader("Sign Up");
-  headerCtx.setIsBack(true);
-
   useEffect(() => {
     if (!isFetching) {
       if (data?.status) {
@@ -50,9 +47,11 @@ export const SignUp = () => {
     } else {
       // ToastMsg("fetching...", "info");
     }
-  }, [isFetching]);
+  }, [data.data.organizations, data?.status, isFetching]);
 
   useEffect(() => {
+    headerCtx.setHeader("Sign Up");
+    headerCtx.setIsBack(true);
     let buttonDisable = false;
     if (firstName === "") {
       buttonDisable = true;
@@ -81,6 +80,7 @@ export const SignUp = () => {
     dateValue,
     emailValue,
     firstName,
+    headerCtx,
     middleName,
     mobile,
     originName,
