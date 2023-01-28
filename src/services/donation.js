@@ -32,7 +32,11 @@ export const AddDonation = async (data) => {
 export function useDoantionHistory() {
   const options = {
     method: "GET",
-    headers: Header,
+    headers: {
+      Authorization: getWithExpiry("token")
+        ? "Bearer " + getWithExpiry("token")
+        : "",
+    },
   };
   return useQuery(
     ["donation-history"],
