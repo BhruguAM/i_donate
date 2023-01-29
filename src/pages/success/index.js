@@ -37,11 +37,11 @@ export const Success = () => {
       const res = await PaymentDetails(body);
       if (res.status) {
         setPDFUrl(BaseUrl + "/" + res.data.link);
-        let paymentDetails = res.data.payment_details;
+        let paymentDetails = res.data.payment_details.payment;
         setTotalAmout(paymentDetails.amount);
         setRecieptNumber(
-          paymentDetails.payment.gateway_paymentIntentKey.substring(
-            paymentDetails.payment.gateway_paymentIntentKey.length - 8
+          paymentDetails.gateway_paymentIntentKey.substring(
+            paymentDetails.gateway_paymentIntentKey.length - 8
           )
         );
         const date = new Date(paymentDetails.payment_date);
