@@ -23,6 +23,13 @@ const ProtectedRoutes = ({ children }) => {
     return <Navigate to={"/auth/signin"} />;
   }
 };
+const AuthProtected = ({ children }) => {
+  // if (getWithExpiry("token")) {
+  // return <Navigate to={"/"} />;
+  // } else {
+  // return children;
+  // }
+};
 
 const router = createBrowserRouter([
   {
@@ -64,7 +71,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/auth",
-        element: <AuthContainer />,
+        element: (
+          // <AuthProtected>
+          <AuthContainer />
+          // </AuthProtected>
+        ),
         children: [
           {
             path: "/auth/signin",

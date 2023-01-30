@@ -174,6 +174,7 @@ export const DonationDetails = () => {
                     {i.title}
                   </label>
                   <InputText
+                    maxLength={2}
                     id={i.name}
                     name={i.name}
                     type={i.type}
