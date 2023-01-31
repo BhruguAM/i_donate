@@ -21,4 +21,5 @@ input:focus {
 .date_ios {
   -webkit-appearance: none;
   -moz-appearance: none;
+  background-color: white;
 }

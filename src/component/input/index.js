@@ -17,7 +17,7 @@ export const InputText = ({
       <input
         maxLength={maxLength}
         inputmode="numeric"
-        pattern={"[0-9]"}
+        pattern={"[0-9]*"}
         placeholder={placeholder}
         id={id}
         onFocus={onFocus}

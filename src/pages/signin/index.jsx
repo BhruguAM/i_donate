@@ -97,7 +97,9 @@ export const SignIn = () => {
             type={"number"}
             value={mobile}
             placeholder={"Phone Number"}
-            onChange={(e) => setMobile(e.target.value)}
+            onChange={(e) =>
+              e.target.validity.valid && setMobile(e.target.value)
+            }
           />
         </div>
         <div className="flex w-full">

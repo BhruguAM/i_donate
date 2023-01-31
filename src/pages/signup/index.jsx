@@ -247,7 +247,7 @@ export const SignUp = () => {
             value={mobile}
             placeholder={"Phone Number"}
             onChange={(e) => {
-              if (/^[0-9\b]+$/.test(e.target.value)) {
+              if (e.target.validity.valid) {
                 setMobile(e.target.value);
               }
             }}
