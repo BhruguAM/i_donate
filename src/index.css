@@ -22,4 +22,5 @@ input:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   background-color: white;
+  text-align: start;
 }
