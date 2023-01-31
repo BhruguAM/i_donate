@@ -34,7 +34,7 @@ export const AddressInfo = () => {
     if (city === "") {
       buttonDisable = true;
     }
-    if (zip === "") {
+    if (zip === "" || zip.length < 4) {
       buttonDisable = true;
     }
     if (stateValue === "" || stateValue.length === 1) {
@@ -175,6 +175,8 @@ export const AddressInfo = () => {
             </label>
             <InputText
               id={"zip"}
+              maxLength={5}
+              minLength={5}
               onFocus={() => setZipFocus(true)}
               onBlur={() => setZipFocus(false)}
               extraclassName={"mt-4 pb-2 w-full"}
@@ -182,7 +184,7 @@ export const AddressInfo = () => {
               value={zip}
               placeholder={"zip"}
               onChange={(e) => {
-                if (/^[0-9\b]+$/.test(e.target.value)) {
+                if (e.target.value.trim().length <= 5) {
                   setZip(e.target.value);
                 }
               }}

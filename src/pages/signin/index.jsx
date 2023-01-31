@@ -112,7 +112,8 @@ export const SignIn = () => {
           </label>
           <InputText
             id={"password"}
-            maxLength={8}
+            maxLength={16}
+            minLength={8}
             onFocus={() => setPassword(true)}
             onBlur={() => setPassword(false)}
             extraclassName={"mt-4 pb-2 w-full"}

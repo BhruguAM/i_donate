@@ -18,12 +18,12 @@ export const History = () => {
   const { setOpen, setOkay, ModalData } = useModalContext();
   const [historyData, setHistoryData] = useState([]);
   const [extra, setExtra] = useState(0);
+  const [itemIndex, setItemIndex] = useState(-1);
   const headerCtx = useHeaderContext();
 
   useEffect(() => {
     headerCtx.setHeader("Donations");
     headerCtx.setIsBack(false);
-    console.log("USEEFFECT", data, isFetching, isLoading);
     if (!isFetching) {
       if (data.status) {
         setHistoryData(data.data);
@@ -33,6 +33,7 @@ export const History = () => {
   }, [isFetching, isLoading]);
 
   const ModalOutput = ({ item, link }) => {
+    console.log("item", item);
     return (
       <div className="p-5 bg-white">
         <div
@@ -114,11 +115,11 @@ export const History = () => {
   }
 
   const onClickHistoryCard = async (e, i, k) => {
+    setItemIndex(k);
     e.stopPropagation();
     const body = { payment_intent_key: i.payment.gateway_paymentIntentKey };
     const res = await PaymentDetails(body);
     if (res.status) {
-      console.log("RES", res.data);
       ModalData(
         <ModalOutput
           item={{ ...res.data.payment_details, ...i }}
@@ -127,8 +128,10 @@ export const History = () => {
       );
       setOkay(false);
       setOpen(true);
+      setItemIndex(-1);
     } else {
       ToastMsg(res.message, "error");
+      setItemIndex(-1);
     }
   };
 
@@ -137,13 +140,16 @@ export const History = () => {
       {historyData?.length > 0 ? (
         <div className={`px-5 pt-4 pb-1 shadow-md mb-5 rounded-md bg-white`}>
           {React.Children.toArray(
-            historyData.map((i, k) => (
-              <HistoryCard
-                item={i}
-                extraClass="mb-4"
-                onClick={(e) => onClickHistoryCard(e, i, k)}
-              />
-            ))
+            historyData.map((i, k) => {
+              return (
+                <HistoryCard
+                  isLoading={itemIndex === k}
+                  item={i}
+                  extraClass="mb-4"
+                  onClick={(e) => onClickHistoryCard(e, i, k)}
+                />
+              );
+            })
           )}
         </div>
       ) : (
@@ -153,7 +159,7 @@ export const History = () => {
       )}
       <div
         onClick={() => navigate("/donation")}
-        className="flex mt-2 p-2 mb-2 text-white items-center justify-center fixed bottom-0 left-0 right-0 bg-primary rounded-full "
+        className="flex mt-2 p-2 mb-2 text-white items-center justify-center fixed bottom-0 left-0 right-0 bg-primary rounded-md mx-3 "
       >
         <label className=" text-lg font-semibold text-center">
           Go to Donation Page

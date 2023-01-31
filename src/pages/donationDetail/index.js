@@ -75,6 +75,7 @@ export const DonationDetails = () => {
       (i) => i.value === "" && i.title !== "Address 2"
     );
     const getEmail = formData.find((i) => i.type === "email");
+    const zipValue = formData.find((i) => i.title === "ZIP");
     if (IsEmpty) {
       setButtonDisable(true);
     } else {
@@ -85,6 +86,9 @@ export const DonationDetails = () => {
       } else {
         setButtonDisable(false);
       }
+    }
+    if (zipValue.value.length < 5) {
+      setButtonDisable(true);
     }
   }, [extra]);
 
@@ -193,11 +197,17 @@ export const DonationDetails = () => {
                     {formData[k + 1].title}
                   </label>
                   <InputText
+                    maxLength={5}
+                    minLength={5}
                     id={formData[k + 1].name}
                     name={formData[k + 1].name}
                     type={formData[k + 1].type}
                     value={formData[k + 1].value}
-                    onChange={(e) => onChangeInput(e, formData[k + 1], k + 1)}
+                    onChange={(e) => {
+                      if (e.target.value.trim().length <= 5) {
+                        onChangeInput(e, formData[k + 1], k + 1);
+                      }
+                    }}
                   />
                 </div>
               </div>

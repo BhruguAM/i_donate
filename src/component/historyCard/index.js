@@ -1,11 +1,18 @@
 import React from "react";
 
-export function HistoryCard({ extraClass = "", item, onClick }) {
+export function HistoryCard({ extraClass = "", item, onClick, isLoading }) {
   return (
     <div
-      className={`flex flex-col bg-gray-100 p-3 rounded-md ${extraClass}`}
+      className={`flex flex-col bg-gray-100 p-3 rounded-md relative ${
+        isLoading & "pointer-events-none"
+      } ${extraClass}`}
       onClick={onClick}
     >
+      {isLoading && (
+        <div className="absolute h-full w-full flex items-center justify-center bg-opacity-25 bg-orange-300 top-0 left-0 animate-pulse">
+          ... Loading
+        </div>
+      )}
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <label className="text-black text-base font-semibold">

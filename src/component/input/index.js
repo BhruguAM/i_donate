@@ -20,11 +20,13 @@ export const InputText = ({
   id,
   placeholder = "",
   maxLength = 100,
+  minLength = 0,
 }) => {
   if (type === "number") {
     return (
       <input
         maxLength={maxLength}
+        minLength={minLength}
         inputmode="numeric"
         pattern={"[0-9]*"}
         placeholder={placeholder}
@@ -58,6 +60,7 @@ export const InputText = ({
   return (
     <input
       maxLength={maxLength}
+      minLength={minLength}
       id={id}
       placeholder={placeholder}
       onFocus={onFocus}

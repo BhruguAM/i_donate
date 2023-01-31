@@ -18,7 +18,7 @@ export const CreatePassword = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { setLoading } = useLoadingContext();
-  const { setOpen, setOkay, ModalData } = useModalContext();
+  const { setOpen, setOkay, ModalData, setStrict } = useModalContext();
   const headerCtx = useHeaderContext();
   const [password, setPassword] = useState(false);
   const [paswordData, setPasswordData] = useState("");
@@ -64,8 +64,9 @@ export const CreatePassword = () => {
           extraClass={"mt-5"}
           title={"Go to SignIn"}
           onClick={() => {
-            setOpen(false);
+            setStrict(false);
             setOkay(true);
+            setOpen(false);
             navigate("/auth/signin");
           }}
         />
@@ -80,6 +81,7 @@ export const CreatePassword = () => {
     if (res.status) {
       ToastMsg(res.message, "success");
       ModalData(<ModalOutput memberId={res.data.memberId} />);
+      setStrict(true);
       setOkay(false);
       setOpen(true);
       // navigate("/auth/signin");
@@ -105,7 +107,8 @@ export const CreatePassword = () => {
             <img src={IcPassword} className="h-5 object-contain" alt="p" />
           </label>
           <InputText
-            maxLength={8}
+            maxLength={16}
+            minLength={8}
             id={"password"}
             onFocus={() => setPassword(true)}
             onBlur={() => setPassword(false)}
@@ -137,7 +140,8 @@ export const CreatePassword = () => {
             <img src={IcPassword} className="h-5 object-contain" alt="p" />
           </label>
           <InputText
-            maxLength={8}
+            maxLength={16}
+            minLength={8}
             id={"confirm Password"}
             onFocus={() => setConfirmPassword(true)}
             onBlur={() => setConfirmPassword(false)}

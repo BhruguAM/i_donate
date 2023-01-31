@@ -1,13 +1,4 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import Lottie from "lottie-web";
-import AnimatedData from "../assets/lottie/Loading_arrow.json";
+import React, { createContext, useContext, useState } from "react";
 import { Modal } from "../component";
 
 export const ModalContext = createContext(null);
@@ -15,6 +6,7 @@ export const ModalContext = createContext(null);
 export const ModalContextProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [isOkay, setOkay] = useState(true);
+  const [strict, setStrict] = useState(false);
   const [ModalContent, ModalData] = useState(() => <></>);
 
   const contextValue = {
@@ -23,12 +15,14 @@ export const ModalContextProvider = ({ children }) => {
     isOkay,
     setOkay,
     ModalData,
+    setStrict,
   };
 
   return (
     <ModalContext.Provider value={contextValue}>
       {open && (
         <Modal
+          strict={strict}
           open={open}
           setOpen={setOpen}
           isOkay={isOkay}

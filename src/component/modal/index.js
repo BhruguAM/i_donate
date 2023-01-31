@@ -1,9 +1,8 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Button } from "../button";
 
-export function Modal({ open, setOpen, isOkay, ModalContent }) {
+export function Modal({ open, setOpen, isOkay, ModalContent, strict }) {
   //   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
 
@@ -13,7 +12,7 @@ export function Modal({ open, setOpen, isOkay, ModalContent }) {
         as="div"
         className="relative z-50"
         initialFocus={cancelButtonRef}
-        onClose={setOpen}
+        onClose={() => (strict ? {} : setOpen())}
       >
         <Transition.Child
           as={Fragment}
