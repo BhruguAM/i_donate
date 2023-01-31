@@ -97,7 +97,6 @@ export const DonationDetails = () => {
     // e.stopPropagation();
     const getEmail = formData.find((i) => i.type === "email");
     // let validRegex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
-    console.log("state", state);
     if (validateEmail(getEmail.value)) {
       setLoading(true);
       const body = {

@@ -32,7 +32,6 @@ export const CreatePassword = () => {
   headerCtx.setIsBack(true);
 
   useEffect(() => {
-    console.log(validatePassword(paswordData));
     let disableButton = false;
     if (!validatePassword(paswordData)) {
       disableButton = true;
@@ -76,7 +75,6 @@ export const CreatePassword = () => {
   const onSignUp = async () => {
     setLoading(true);
     const res = await SignUpAPI({ ...state, password: paswordData });
-    console.log("res", res);
     setLoading(false);
     if (res.status) {
       ToastMsg(res.message, "success");

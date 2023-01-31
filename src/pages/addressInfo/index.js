@@ -44,15 +44,6 @@ export const AddressInfo = () => {
   }, [stateValue, address1, zip, city]);
 
   const onContinue = () => {
-    console.log("state", {
-      ...state,
-      country_code: "+1",
-      address_line1: address1,
-      address_line2: address2,
-      city: city,
-      state: stateValue,
-      zip: zip,
-    });
     // return;
     navigate("/auth/createPassword", {
       state: {

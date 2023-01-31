@@ -33,7 +33,6 @@ export const History = () => {
   }, [isFetching, isLoading]);
 
   const ModalOutput = ({ item, link }) => {
-    console.log("item", item);
     return (
       <div className="p-5 bg-white">
         <div

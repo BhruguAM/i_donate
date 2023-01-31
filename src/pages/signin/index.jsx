@@ -37,9 +37,7 @@ export const SignIn = () => {
       body = { ...body, phone: mobile };
     }
     const res = await SignInAPI(body);
-    console.log("SignInAPI", res);
     setLoading(false);
-    console.log("SignInAPI", res);
     if (res.status) {
       ToastMsg(res.message, "success");
       setWithExpiry("token", res.data.token);
