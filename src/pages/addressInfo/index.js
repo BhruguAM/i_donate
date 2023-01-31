@@ -37,7 +37,7 @@ export const AddressInfo = () => {
     if (zip === "") {
       buttonDisable = true;
     }
-    if (stateValue === "" && stateValue.length < 1) {
+    if (stateValue === "" || stateValue.length === 1) {
       buttonDisable = true;
     }
     setButtonDisabled(buttonDisable);

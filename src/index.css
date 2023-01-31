@@ -24,3 +24,10 @@ input:focus {
   background-color: white;
   text-align: start;
 }
+
+.ios-status-bar:before {
+  background-color: rgba(245, 119, 2, 1);
+}
+.ios-status-bar {
+  background-color: rgba(245, 119, 2, 1);
+}

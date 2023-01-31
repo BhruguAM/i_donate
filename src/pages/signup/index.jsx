@@ -56,9 +56,6 @@ export const SignUp = () => {
     if (firstName === "") {
       buttonDisable = true;
     }
-    if (middleName === "") {
-      buttonDisable = true;
-    }
     if (LastName === "") {
       buttonDisable = true;
     }

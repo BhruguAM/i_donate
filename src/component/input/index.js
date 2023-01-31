@@ -1,5 +1,14 @@
 import React from "react";
 
+const date = `${new Date().getFullYear() - 18}-${
+  (new Date().getMonth() + 1).toString().length === 1
+    ? "0" + (new Date().getMonth() + 1).toString()
+    : new Date().getMonth() + 1
+}-${
+  new Date().getDate().toString().length === 1
+    ? "0" + new Date().getDate().toString()
+    : new Date.getDate()
+} `;
 export const InputText = ({
   name,
   type,
@@ -26,6 +35,22 @@ export const InputText = ({
         className={`border-b border-gray-300 text-sm text-greyout pb-2 w-full focus:border-primary ${extraclassName}`}
         type={type}
         value={value}
+        onChange={onChange}
+      />
+    );
+  }
+  if (type === "date") {
+    return (
+      <input
+        id={id}
+        placeholder={placeholder}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        name={name}
+        className={`border-b border-gray-300 text-sm text-greyout pb-2 w-full focus:border-primary ${extraclassName}`}
+        type={type}
+        value={value}
+        max={date.trim()}
         onChange={onChange}
       />
     );

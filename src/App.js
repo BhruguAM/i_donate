@@ -10,6 +10,8 @@ import router from "./routes";
 const queryClient = new QueryClient();
 
 function App() {
+  const isIOS = navigator.userAgent.match(/OS/i) != null;
+  if (isIOS) document.body.classList.add("ios-status-bar");
   return (
     <LoadingContextProvider>
       <ModalContextProvider>
