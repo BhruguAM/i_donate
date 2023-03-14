@@ -25,17 +25,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Dependencies
+        run: yarn
       - name: Build
-        run: |
-          if [ -e package-lock.json ]; then
-          npm ci
-          else
-          npm i
-          fi
-          npm run build
+        run: yarn build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
