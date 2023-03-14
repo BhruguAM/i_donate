@@ -4,3 +4,6 @@ export * from "./dropdown";
 export * from "./input";
 export * from "./modal";
 export * from "./historyCard";
+export * from "./logoutPopup";
+export * from "./slideUpModal";
+export * from "./bottomBar";

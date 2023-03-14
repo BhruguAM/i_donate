@@ -18,11 +18,25 @@ input:focus {
     height: -webkit-fill-available;
   }
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-box-shadow: inherit !important;
+}
 .date_ios {
   -webkit-appearance: none;
   -moz-appearance: none;
   background-color: white;
   text-align: start;
+  align-items: flex-start;
+  display: flex;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  /* display: none; */
 }
 
 .ios-status-bar:before {
@@ -30,4 +44,18 @@ input:focus {
 }
 .ios-status-bar {
   background-color: rgba(245, 119, 2, 1);
+}
+
+.my-custom-datepicker .react-datepicker__input-container {
+  width: 100%;
+  border-bottom: 1px solid green;
+  z-index: 100;
+}
+
+.my-custom-datepicker .react-datepicker__header {
+  background-color: lightgray;
+}
+
+.my-custom-datepicker .react-datepicker__day {
+  color: blue;
 }

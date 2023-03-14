@@ -36,7 +36,7 @@ export const LoadingContextProvider = ({ children }) => {
   return (
     <LoadingContext.Provider value={contextValue}>
       {Loading && (
-        <div className="absolute h-screen w-screen bg-loading z-50 flex items-center justify-center">
+        <div className="fixed h-screen w-screen bg-loading z-50 flex items-center justify-center">
           <div id="loading" className="w-1/2 h-1/2" />
         </div>
       )}

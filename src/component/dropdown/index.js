@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import IcDownArrow from "../../assets/icons/ic-dropdown.svg";
+import { useLocation } from "react-router-dom";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -14,7 +15,11 @@ export const Dropdown = ({
   title,
   showValue = "select",
   disabled = false,
+  isError = false,
+  extraClass = "",
+  showError = true,
 }) => {
+  const location = useLocation();
   return (
     <Listbox disabled={disabled} value={value} onChange={onChange}>
       {({ open }) => (
@@ -25,9 +30,21 @@ export const Dropdown = ({
             </Listbox.Label>
           )}
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full cursor-default border-b border-gray-300 bg-white py-2 text-left shadow-sm focus:outline-none sm:text-sm">
+            <Listbox.Button
+              className={`relative w-full cursor-default border-b ${
+                isError
+                  ? "border-red-700"
+                  : open
+                  ? "border-lineColor"
+                  : "border-gray-300"
+              } ${
+                location.pathname.includes("auth")
+                  ? "bg-primaryBg"
+                  : "bg-primaryCard"
+              } py-2 text-left shadow-sm focus:outline-none sm:text-sm ${extraClass}`}
+            >
               <span className="flex items-center">
-                <span className="block truncate text-greyout">{showValue}</span>
+                <span className="block truncate text-black">{showValue}</span>
               </span>
               {!disabled && (
                 <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
@@ -39,6 +56,11 @@ export const Dropdown = ({
                   />
                 </span>
               )}
+              {showError && (
+                <label className="absolute -bottom-4 text-xs text-red-700">
+                  {isError}
+                </label>
+              )}
             </Listbox.Button>
 
             <Transition
@@ -48,14 +70,14 @@ export const Dropdown = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 max-h-56 w-full overflow-auto bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-20 max-h-56 w-full overflow-auto bg-white shadow-xl rounded-b-xl text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {items.map((i, k) => (
                   <Listbox.Option
                     key={i.created_at + "" + k}
                     className={({ active }) =>
                       classNames(
                         active ? "text-white bg-primary" : "text-gray-900",
-                        "relative cursor-default select-none py-2 pl-3 pr-9"
+                        "relative cursor-default select-none py-2"
                       )
                     }
                     value={i}
@@ -76,11 +98,13 @@ export const Dropdown = ({
                               "ml-3 block truncate"
                             )}
                           >
-                            {title === "Donation To"
+                            {title === "Donation To*"
                               ? i.organization_name
-                              : title === "Donation For"
+                              : title === "Donation For*"
                               ? i.category_name
-                              : i.event_name}
+                              : title === "Event Type*"
+                              ? i.event_name
+                              : i.label}
                           </span>
                         </div>
 

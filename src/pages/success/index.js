@@ -6,16 +6,26 @@ import { PaymentDetails } from "../../services/payment";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { BaseUrl } from "../../config/config";
 import { ToastMsg } from "../../utils";
+import { useHeaderContext } from "../../context";
 
 export const Success = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const headerCtx = useHeaderContext();
+
   const [searchParams] = useSearchParams();
-  const [recieptNumber, setRecieptNumber] = useState("");
-  const [totalAmout, setTotalAmout] = useState("");
+  const [receiptNumber, setReceiptNumber] = useState("");
+  const [totalAmount, setTotalAmount] = useState("");
   const [paymentType, setPaymentType] = useState("Card");
   const [transactionDate, setTransactionDate] = useState("");
   const [PDFUrl, setPDFUrl] = useState("");
+
+  useEffect(() => {
+    headerCtx.setHeader("Card Details");
+    headerCtx.setIsBack(true);
+    headerCtx.setMainHeader(false);
+    headerCtx.setSearchBar(false);
+  }, []);
 
   useEffect(() => {
     const instance = lottie.loadAnimation({
@@ -38,8 +48,8 @@ export const Success = () => {
       if (res.status) {
         setPDFUrl(BaseUrl + "/" + res.data.link);
         let paymentDetails = res.data.payment_details.payment;
-        setTotalAmout(paymentDetails.amount);
-        setRecieptNumber(
+        setTotalAmount(paymentDetails.amount);
+        setReceiptNumber(
           paymentDetails.gateway_paymentIntentKey.substring(
             paymentDetails.gateway_paymentIntentKey.length - 8
           )
@@ -63,14 +73,14 @@ export const Success = () => {
     GetPaymentDetails();
   }, []);
 
-  const onDonwnloadPDF = () => {
+  const onDownloadPDF = () => {
     window.open(PDFUrl);
   };
 
   return (
-    <div>
+    <div className="flex flex-col flex-1 w-full items-center">
       <div
-        className={`px-5 pb-5 shadow-md mb-5 rounded-md bg-white flex flex-col items-center`}
+        className={`px-5 pb-5 shadow-md mb-5 rounded-md bg-white flex flex-col items-center max-w-2xl w-full`}
       >
         <div className="h-48 w-48 animate-wiggle">
           <div id="LoadingAnimation" />
@@ -78,7 +88,7 @@ export const Success = () => {
         <label className="text-center text-2xl text-primary">
           Payment Successful!
         </label>
-        <label className="text-center text-xs text-greyout mb-14">
+        <label className="text-center text-xs text-greyOut mb-14">
           Details of transaction are included below
         </label>
         {transactionDate === "" ? (
@@ -90,34 +100,34 @@ export const Success = () => {
             className={`w-full ${transactionDate === "" && "animate-pulse"}`}
           >
             <div className="border-b border-gray-200 flex py-3 w-full justify-between">
-              <label className="text-center text-sm text-greyout">
+              <label className="text-center text-sm text-greyOut">
                 {"Receipt Number"}
               </label>
-              <label className="text-center text-sm text-greyout">
-                {recieptNumber}
+              <label className="text-center text-sm text-greyOut">
+                {receiptNumber}
               </label>
             </div>
             <div className="border-b border-gray-200 flex py-3 w-full justify-between">
-              <label className="text-center text-sm text-greyout">
+              <label className="text-center text-sm text-greyOut">
                 {"Total Amount"}
               </label>
-              <label className="text-center text-sm text-greyout">
-                {`$ ${Number(totalAmout).toFixed(2)}`}
+              <label className="text-center text-sm text-greyOut">
+                {`$ ${Number(totalAmount).toFixed(2)}`}
               </label>
             </div>
             <div className="border-b border-gray-200 flex py-3 w-full justify-between">
-              <label className="text-center text-sm text-greyout">
+              <label className="text-center text-sm text-greyOut">
                 {"Payment Type"}
               </label>
-              <label className="text-center text-sm text-greyout">
+              <label className="text-center text-sm text-greyOut">
                 {paymentType}
               </label>
             </div>
             <div className="flex py-3 w-full justify-between">
-              <label className="text-center text-sm text-greyout">
+              <label className="text-center text-sm text-greyOut">
                 {"Transanction Date"}
               </label>
-              <label className="text-center text-sm text-greyout">
+              <label className="text-center text-sm text-greyOut">
                 {transactionDate}
               </label>
             </div>
@@ -127,7 +137,8 @@ export const Success = () => {
       <Button
         disabled={transactionDate === ""}
         title={"Download Receipt"}
-        onClick={() => onDonwnloadPDF()}
+        onClick={() => onDownloadPDF()}
+        extraClass={"max-w-2xl w-full"}
       />
       <Button
         disabled={transactionDate === ""}
@@ -136,7 +147,7 @@ export const Success = () => {
         onClick={() => {
           navigate("/", { replace: true });
         }}
-        extraClass={"mt-4"}
+        extraClass={"mt-4 max-w-2xl w-full"}
       />
     </div>
   );

@@ -8,13 +8,20 @@ import {
   Donation,
   DonationDetails,
   ErrorElement,
+  ForgotPassword,
   History,
+  Info,
   Payment,
+  PersonalInfo,
+  ProfileScreen,
   SignIn,
   SignUp,
   Success,
+  UserAddressInfo,
 } from "../pages";
+import { ChangePassword } from "../pages/changePassword";
 import { getWithExpiry } from "../utils";
+import { privacy, terms } from "./constant";
 
 const ProtectedRoutes = ({ children }) => {
   if (getWithExpiry("token")) {
@@ -45,27 +52,68 @@ const router = createBrowserRouter([
                 <History />
               </ProtectedRoutes>
             ),
-            //   loader: teamLoader,
           },
           {
             path: "/donation",
             element: <Donation />,
-            //   loader: teamLoader,
           },
           {
             path: "/donation/details",
             element: <DonationDetails />,
-            //   loader: teamLoader,
           },
           {
             path: "/payment",
             element: <Payment />,
-            //   loader: teamLoader,
           },
           {
             path: "/success",
             element: <Success />,
-            //   loader: teamLoader,
+          },
+          {
+            path: "/terms",
+            element: <Info title={"Terms And Condition"} />,
+            loader: async () => ({
+              data: terms,
+            }),
+          },
+          {
+            path: "/privacy",
+            element: <Info title={"Privacy"} />,
+            loader: async () => ({
+              data: privacy,
+            }),
+          },
+          {
+            path: "/changePassword",
+            element: (
+              <ProtectedRoutes>
+                <ChangePassword />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "/profile",
+            element: (
+              <ProtectedRoutes>
+                <ProfileScreen />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "/personalInfo",
+            element: (
+              <ProtectedRoutes>
+                <PersonalInfo />
+              </ProtectedRoutes>
+            ),
+          },
+          {
+            path: "/addressInfo",
+            element: (
+              <ProtectedRoutes>
+                <UserAddressInfo />
+              </ProtectedRoutes>
+            ),
           },
         ],
       },
@@ -80,6 +128,10 @@ const router = createBrowserRouter([
           {
             path: "/auth/signin",
             element: <SignIn />,
+          },
+          {
+            path: "/auth/forgotPassword",
+            element: <ForgotPassword />,
           },
           {
             path: "/auth/signup",

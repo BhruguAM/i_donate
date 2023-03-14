@@ -1,115 +1,99 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, InputText } from "../../component";
 import { useHeaderContext, useLoadingContext } from "../../context";
 import { AddDonation } from "../../services/donation";
 
 import { getWithExpiry, ToastMsg } from "../../utils";
 import { validateEmail } from "../../utils/validate";
+import { InitialValues } from "./constant";
 
 export const DonationDetails = () => {
   const { state } = useLocation();
-  const navigate = useNavigate();
-  const headerCtx = useHeaderContext();
-  const { setLoading } = useLoadingContext();
   const member = getWithExpiry("member");
-  headerCtx.setHeader("Donar Details");
-  headerCtx.setIsBack(true);
+  const headerCtx = useHeaderContext();
+  const navigate = useNavigate();
+  const { setLoading } = useLoadingContext();
   const [extra, setExtra] = useState(0);
   const [buttonDisable, setButtonDisable] = useState(true);
-  const [formData, setFromData] = useState([
-    {
-      title: "Name",
-      name: "Name",
-      value: member
-        ? member.first_name + " " + member.middle_name + " " + member.last_name
-        : "",
-      type: "text",
-    },
-    {
-      title: "Address 1",
-      name: "Address 1",
-      value: member ? member.address_line1 : "",
-      type: "text",
-    },
-    {
-      title: "Address 2",
-      name: "Address 2",
-      value: member ? member.address_line2 : "",
-      type: "text",
-    },
-    {
-      title: "City",
-      name: "City",
-      value: member ? member.city : "",
-      type: "text",
-    },
-    {
-      title: "State",
-      name: "State",
-      value: member ? member.state : "",
-      type: "text",
-    },
-    {
-      title: "ZIP",
-      name: "ZIP",
-      value: member ? member.zip : "",
-      type: "number",
-    },
-    {
-      title: "Phone Number",
-      name: "Phone Number",
-      value: member ? member.phone : "",
-      type: "number",
-    },
-    {
-      title: "Email",
-      name: "Email",
-      value: member ? member.email : "",
-      type: "email",
-    },
-  ]);
+  const [formData, setFromData] = useState(InitialValues(member));
 
   useEffect(() => {
-    const IsEmpty = formData.find(
-      (i) => i.value === "" && i.title !== "Address 2"
-    );
-    const getEmail = formData.find((i) => i.type === "email");
-    const zipValue = formData.find((i) => i.title === "ZIP");
-    if (IsEmpty) {
-      setButtonDisable(true);
-    } else {
-      if (getEmail) {
-        validateEmail(getEmail.value)
-          ? setButtonDisable(false)
-          : setButtonDisable(true);
-      } else {
-        setButtonDisable(false);
-      }
+    setLoading(false);
+    headerCtx.setIsBack(true);
+    headerCtx.setHeader("Donation");
+    headerCtx.setMainHeader(false);
+    headerCtx.setSearchBar(false);
+  }, []);
+
+  const onCheckFields = (e) => {
+    let isDisable = false;
+    let data = formData.filter((i) => i.mandatory);
+    formData.map((i) => {
+      data.forEach((j) => {
+        if (i.title === j.title && i.value === "") {
+          if (i.title === "Address 1") {
+            i.isError = `Please enter address`;
+            isDisable = true;
+          } else {
+            i.isError = `Please enter ${j.title.toLocaleLowerCase()}`;
+            isDisable = true;
+          }
+        }
+        if (i.value !== "" && i.type === "email") {
+          if (!validateEmail(i.value)) {
+            i.isError = `Please enter valid email`;
+            isDisable = true;
+          }
+        }
+        if (i.value !== "" && i.title === "State") {
+          if (i.value.length !== 2) {
+            i.isError = `Please enter valid state`;
+            isDisable = true;
+          }
+        }
+        if (i.value !== "" && i.title === "Phone Number") {
+          if (i.value.length !== 10) {
+            i.isError = `Please enter valid phone number`;
+            isDisable = true;
+          }
+        }
+        if (i.value !== "" && i.title === "ZIP") {
+          if (i.value.length !== 5) {
+            i.isError = `Please enter valid zip`;
+            isDisable = true;
+          }
+        }
+      });
+      return i;
+    });
+    setFromData(formData);
+    setExtra(extra + 1);
+    if (!isDisable) {
+      onSubmitForm(e);
     }
-    if (zipValue.value.length < 5) {
-      setButtonDisable(true);
-    }
-  }, [extra]);
+  };
 
   const onSubmitForm = async (e) => {
     setButtonDisable(true);
-    // e.stopPropagation();
+    e.stopPropagation();
     const getEmail = formData.find((i) => i.type === "email");
-    // let validRegex = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
     if (validateEmail(getEmail.value)) {
       setLoading(true);
       const body = {
         ...state,
-        name: formData[0].value,
-        address_line1: formData[1].value,
-        address_line2: formData[2].value,
-        city: formData[3].value,
-        state: formData[4].value,
+        name: formData[0].value.trim(),
+        gam_village: formData[1].value.trim(),
+        address_line1: formData[2].value.trim(),
+        address_line2: formData[3].value
+          ? formData[3].value.trim()
+          : formData[3].value,
+        city: formData[4].value.trim(),
+        state: formData[5].value.trim(),
         country_code: +1,
-        phone: formData[6].value,
-        email: formData[7].value,
-        zip: formData[5].value,
+        phone: formData[7].value.trim(),
+        email: formData[8].value.trim(),
+        zip: formData[6].value.trim(),
       };
       const res = await AddDonation(body);
       if (res.status) {
@@ -135,6 +119,7 @@ export const DonationDetails = () => {
       const re = /^[A-Za-z\s]*$/;
       if (e.target.value === "" || re.test(e.target.value)) {
         formData[k].value = e.target.value;
+        formData[k].isError = false;
         setFromData(formData);
         setExtra(extra + 1);
       }
@@ -142,41 +127,52 @@ export const DonationDetails = () => {
       const numre = /^[0-9\b]+$/;
       if (e.target.value === "" || numre.test(e.target.value)) {
         formData[k].value = e.target.value;
+        formData[k].isError = false;
         setFromData(formData);
         setExtra(extra + 1);
       }
+    } else if (i.title === "Email") {
+      formData[k].value = e.target.value;
+      formData[k].isError = false;
+      setFromData(formData);
+      setExtra(extra + 1);
     } else {
       formData[k].value = e.target.value;
+      formData[k].isError = false;
       setFromData(formData);
       setExtra(extra + 1);
     }
   };
 
   return (
-    <div>
-      {/* <label className={`text-title font-bold text-lg mb-5`}>
-        {"Donar Detail"}
-      </label> */}
-      <div className={`px-5 py-2 shadow-md mb-5 rounded-md bg-white`}>
+    <div className="flex flex-col w-full items-center">
+      <div
+        className={`px-5 pt-2 pb-4 shadow-xl mb-5 rounded-xl bg-primaryCard max-w-2xl w-full`}
+      >
         <div className="mt-5 flex" />
+        <label className={`text-title font-bold text-base`}>
+          {"Donar Details"}
+        </label>
+        {/* <div className="mt-5 flex" /> */}
         {formData.map((i, k) => {
-          if (k === 5) {
+          if (k === 6) {
             return null;
           }
-          if (k === 4) {
+          if (k === 5) {
             return (
-              <div className={`mb-3 flex w-full`}>
+              <div className={`flex w-full mt-5`}>
                 <div
                   key={"details" + k}
-                  className={`mb-3 flex flex-col w-full mr-2`}
+                  className={`flex flex-col w-full mr-2`}
                 >
                   <label
                     id={i.name}
                     className="text-sm font-medium text-primary"
                   >
-                    {i.title}
+                    {`${i.title}${i.mandatory ? "*" : ""}`}
                   </label>
                   <InputText
+                    isError={i.isError}
                     maxLength={2}
                     id={i.name}
                     name={i.name}
@@ -187,17 +183,19 @@ export const DonationDetails = () => {
                 </div>
                 <div
                   key={"details" + k + 1}
-                  className={`mb-3 flex flex-col w-full ml-2`}
+                  className={`flex flex-col w-full ml-2`}
                 >
                   <label
                     id={formData[k + 1].name}
                     className="text-sm font-medium text-primary"
                   >
-                    {formData[k + 1].title}
+                    {`${formData[k + 1].title}${
+                      formData[k + 1].mandatory ? "*" : ""
+                    }`}
                   </label>
                   <InputText
-                    maxLength={5}
-                    minLength={5}
+                    maxLength={6}
+                    isError={formData[k + 1].isError}
                     id={formData[k + 1].name}
                     name={formData[k + 1].name}
                     type={formData[k + 1].type}
@@ -213,11 +211,13 @@ export const DonationDetails = () => {
             );
           }
           return (
-            <div key={"details" + k} className={`mb-3 flex flex-col`}>
+            <div key={"details" + k} className={`mt-5 flex flex-col`}>
               <label id={i.name} className="text-sm font-medium text-primary">
-                {i.title}
+                {`${i.title}${i.mandatory ? "*" : ""}`}
               </label>
               <InputText
+                maxLength={i.name === "Phone Number" ? 10 : 50}
+                isError={i.isError}
                 id={i.name}
                 name={i.name}
                 type={i.type}
@@ -229,9 +229,10 @@ export const DonationDetails = () => {
         })}
       </div>
       <Button
-        disabled={buttonDisable}
+        // disabled={buttonDisable}
         title={"Donate Now"}
-        onClick={(e) => onSubmitForm(e)}
+        onClick={(e) => onCheckFields(e)}
+        extraClass={"max-w-2xl w-full"}
       />
     </div>
   );

@@ -11,37 +11,70 @@ export const AddressInfo = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const headerCtx = useHeaderContext();
+
   const [address1Focus, setAddress1Focus] = useState(false);
   const [address1, setAddress1] = useState("");
+  const [address1Err, setAddress1Err] = useState("");
+
   const [address2Focus, setAddress2Focus] = useState(false);
   const [address2, setAddress2] = useState("");
+
   const [cityFocus, setCityFocus] = useState(false);
   const [city, setCity] = useState("");
+  const [cityErr, setCityErr] = useState("");
+
   const [zipFocus, setZipFocus] = useState(false);
   const [zip, setZip] = useState("");
+  const [zipErr, setZipErr] = useState("");
+
   const [stateFocus, setStateFocus] = useState(false);
   const [stateValue, setStateValue] = useState("");
+  const [stateValueErr, setStateValueErr] = useState("");
+
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   headerCtx.setHeader("Sign Up");
   headerCtx.setIsBack(true);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   let buttonDisable = false;
+  //   if (address1 === "") {
+  //     buttonDisable = true;
+  //   }
+  //   if (city === "") {
+  //     buttonDisable = true;
+  //   }
+  //   if (zip === "" || zip.length < 4) {
+  //     buttonDisable = true;
+  //   }
+  //   if (stateValue === "" || stateValue.length === 1) {
+  //     buttonDisable = true;
+  //   }
+  //   setButtonDisabled(buttonDisable);
+  // }, [stateValue, address1, zip, city]);
+
+  const onCheckFields = () => {
     let buttonDisable = false;
     if (address1 === "") {
+      setAddress1Err("Please enter address");
       buttonDisable = true;
     }
     if (city === "") {
+      setCityErr("Please enter city");
       buttonDisable = true;
     }
     if (zip === "" || zip.length < 4) {
+      setZipErr("Please enter zip");
       buttonDisable = true;
     }
     if (stateValue === "" || stateValue.length === 1) {
+      setStateValueErr("Please enter state");
       buttonDisable = true;
     }
-    setButtonDisabled(buttonDisable);
-  }, [stateValue, address1, zip, city]);
+    if (!buttonDisable) {
+      onContinue();
+    }
+  };
 
   const onContinue = () => {
     // return;
@@ -59,39 +92,45 @@ export const AddressInfo = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-full">
+    <div className="flex flex-col items-center w-full min-h-full">
       <div className="w-full max-w-2xl mb-3">
         <label className="text-3xl font-bold text-white">Address Info</label>
       </div>
       <div
-        className={`px-5 pt-5 pb-8 shadow-md mb-5 rounded-md bg-white w-full max-w-2xl z-10`}
+        className={`px-5 pb-8 shadow-xl mb-5 rounded-xl bg-primaryBg w-full max-w-2xl z-10`}
       >
-        <div className="flex w-full">
+        <div className="flex w-full mt-3">
           <label
             className={`border-b ${
-              address1Focus ? "border-primary" : "border-gray-300"
-            } text-sm text-greyout mt-4 pb-2 pr-2`}
+              address1Err
+                ? "border-red-700"
+                : address1Focus
+                ? "border-lineColor"
+                : "border-gray-300"
+            } text-sm text-greyOut mt-4 pb-2 pr-2`}
           >
             <img src={icLocation} className="h-5 object-contain" alt="p" />
           </label>
           <InputText
             id={"Address 1"}
+            isError={address1Err}
             onFocus={() => setAddress1Focus(true)}
             onBlur={() => setAddress1Focus(false)}
-            extraclassName={"mt-4 pb-2 w-full"}
+            extraClassName={"mt-4 pb-2 w-full"}
             type={"text"}
             value={address1}
             placeholder={"Address 1"}
             onChange={(e) => {
+              setAddress1Err(false);
               setAddress1(e.target.value);
             }}
           />
         </div>
-        <div className="flex w-full">
+        <div className="flex w-full mt-3">
           <label
             className={`border-b ${
-              address2Focus ? "border-primary" : "border-gray-300"
-            } text-sm text-greyout mt-4 pb-2 pr-2`}
+              address2Focus ? "border-lineColor" : "border-gray-300"
+            } text-sm text-greyOut mt-4 pb-2 pr-2`}
           >
             <img src={icLocation} className="h-5 object-contain" alt="p" />
           </label>
@@ -99,7 +138,7 @@ export const AddressInfo = () => {
             id={"Address 2"}
             onFocus={() => setAddress2Focus(true)}
             onBlur={() => setAddress2Focus(false)}
-            extraclassName={"mt-4 pb-2 w-full"}
+            extraClassName={"mt-4 pb-2 w-full"}
             type={"text"}
             value={address2}
             placeholder={"Address 2"}
@@ -108,49 +147,61 @@ export const AddressInfo = () => {
             }}
           />
         </div>
-        <div className="flex w-full">
+        <div className="flex w-full mt-3">
           <label
             className={`border-b ${
-              cityFocus ? "border-primary" : "border-gray-300"
-            } text-sm text-greyout mt-4 pb-2 pr-2`}
+              cityErr
+                ? "border-red-700"
+                : cityFocus
+                ? "border-lineColor"
+                : "border-gray-300"
+            } text-sm text-greyOut mt-4 pb-2 pr-2`}
           >
             <img src={IcCity} className="h-5 object-contain" alt="p" />
           </label>
           <InputText
             id={"city"}
+            isError={cityErr}
             onFocus={() => setCityFocus(true)}
             onBlur={() => setCityFocus(false)}
-            extraclassName={"mt-4 pb-2 w-full"}
+            extraClassName={"mt-4 pb-2 w-full"}
             type={"text"}
             value={city}
             placeholder={"City"}
             onChange={(e) => {
               if (/^[A-Za-z\s]*$/.test(e.target.value)) {
+                setCityErr(false);
                 setCity(e.target.value);
               }
             }}
           />
         </div>
-        <div className="flex w-full">
+        <div className="flex w-full mt-3">
           <div className="flex w-full mr-2">
             <label
               className={`border-b ${
-                stateFocus ? "border-primary" : "border-gray-300"
-              } text-sm text-greyout mt-4 pb-2 pr-2`}
+                stateValueErr
+                  ? "border-red-700"
+                  : stateFocus
+                  ? "border-lineColor"
+                  : "border-gray-300"
+              } text-sm text-greyOut mt-4 pb-2 pr-2`}
             >
               <img src={IcCity} className="h-5 object-contain" alt="p" />
             </label>
             <InputText
               maxLength={2}
+              isError={stateValueErr}
               id={"state"}
               onFocus={() => setStateFocus(true)}
               onBlur={() => setStateFocus(false)}
-              extraclassName={"mt-4 pb-2 w-full"}
+              extraClassName={"mt-4 pb-2 w-full"}
               type={"text"}
               value={stateValue}
               placeholder={"State"}
               onChange={(e) => {
                 if (/^[A-Za-z\s]*$/.test(e.target.value)) {
+                  setStateValueErr(false);
                   setStateValue(e.target.value.toUpperCase());
                 }
               }}
@@ -159,23 +210,28 @@ export const AddressInfo = () => {
           <div className="flex w-full ml-2">
             <label
               className={`border-b ${
-                zipFocus ? "border-primary" : "border-gray-300"
-              } text-sm text-greyout mt-4 pb-2 pr-2`}
+                zipErr
+                  ? "border-red-700"
+                  : zipFocus
+                  ? "border-lineColor"
+                  : "border-gray-300"
+              } text-sm text-greyOut mt-4 pb-2 pr-2`}
             >
               <img src={IcZip} className="h-5 object-contain" alt="p" />
             </label>
             <InputText
               id={"zip"}
+              isError={zipErr}
               maxLength={5}
-              minLength={5}
               onFocus={() => setZipFocus(true)}
               onBlur={() => setZipFocus(false)}
-              extraclassName={"mt-4 pb-2 w-full"}
+              extraClassName={"mt-4 pb-2 w-full"}
               type={"number"}
               value={zip}
               placeholder={"zip"}
               onChange={(e) => {
                 if (e.target.value.trim().length <= 5) {
+                  setZipErr(false);
                   setZip(e.target.value);
                 }
               }}
@@ -184,12 +240,11 @@ export const AddressInfo = () => {
         </div>
       </div>
       <Button
-        disabled={isButtonDisabled}
-        onClick={() => onContinue()}
+        // disabled={isButtonDisabled}
+        onClick={() => onCheckFields()}
         extraClass={"max-w-2xl z-10"}
         white={true}
         title={"Continue"}
-        icon={IcWhiteArrow}
       />
     </div>
   );

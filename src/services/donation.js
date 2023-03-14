@@ -4,7 +4,7 @@ import { getWithExpiry } from "../utils";
 
 const BASE_URL = BaseUrl;
 
-export function useDoantionList() {
+export function useDonationList() {
   return useQuery(
     ["donation-list"],
     async () =>
@@ -31,7 +31,23 @@ export const AddDonation = async (data) => {
     .catch((err) => err);
 };
 
-export function useDoantionHistory() {
+export const DeleteIntent = async (data) => {
+  return await fetch(`${BASE_URL}/api/delete-payment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: getWithExpiry("token")
+        ? "Bearer " + getWithExpiry("token")
+        : "",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((json) => json)
+    .catch((err) => err);
+};
+
+export function useDonationHistory() {
   const options = {
     method: "GET",
     headers: {
@@ -50,8 +66,8 @@ export function useDoantionHistory() {
   );
 }
 
-const Header = {
-  Authorization: getWithExpiry("token")
-    ? "Bearer " + getWithExpiry("token")
-    : "",
-};
+// const Header = {
+//   Authorization: getWithExpiry("token")
+//     ? "Bearer " + getWithExpiry("token")
+//     : "",
+// };

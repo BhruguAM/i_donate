@@ -11,10 +11,16 @@ export const Payment = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const headerCtx = useHeaderContext();
-  headerCtx.setHeader("Card Details");
-  headerCtx.setIsBack(true);
+
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
+
+  useEffect(() => {
+    headerCtx.setHeader("Card Details");
+    headerCtx.setIsBack(true);
+    headerCtx.setMainHeader(false);
+    headerCtx.setSearchBar(false);
+  }, []);
 
   useEffect(() => {
     if (state.gateway_clientSecret) {
@@ -26,15 +32,17 @@ export const Payment = () => {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col w-full items-center">
       {/* <h1 className="text-primary font-bold mb-5">
         Add Card Detail for Payment
       </h1> */}
-      {clientSecret && stripePromise && (
-        <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <CheckoutForm />
-        </Elements>
-      )}
-    </>
+      <div className="flex flex-col flex-1 max-w-2xl w-full">
+        {clientSecret && stripePromise && (
+          <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <CheckoutForm />
+          </Elements>
+        )}
+      </div>
+    </div>
   );
 };
